@@ -1,2 +1,2 @@
 # beresin-flutter-frontend-mobile
-Frontend Mobile of BeresIn
+Frontend Mobile of BeresIn, part of agile teknik
