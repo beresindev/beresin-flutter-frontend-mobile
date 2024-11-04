@@ -51,8 +51,9 @@ class TombolLayanan extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 svgIconPath, // Use the SVG path here
-                // height: 24,
-                // width: 24,
+                height: 24,
+                width: 24,
+                fit: BoxFit.none,
               ),
             ),
             const SizedBox(height: 5),
@@ -62,7 +63,7 @@ class TombolLayanan extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 10,
                 color: alternativeTextColor,
-                fontWeight: bold,
+                fontWeight: semibold,
               ),
             ),
           ],

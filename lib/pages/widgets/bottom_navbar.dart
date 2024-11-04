@@ -85,6 +85,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 currentIndex == 0
                     ? 'assets/svg/home_tebal.svg'
                     : 'assets/svg/home.svg',
+                width: 24,
+                height: 24,
+                fit: BoxFit.none,
               ),
               label: 'Beranda',
             ),
@@ -93,6 +96,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 currentIndex == 1
                     ? 'assets/svg/product_tebal.svg'
                     : 'assets/svg/product.svg',
+                width: 24,
+                height: 24,
+                fit: BoxFit.none,
               ),
               label: 'Produk',
             ),
@@ -101,6 +107,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 currentIndex == 2
                     ? 'assets/svg/plus_square_tebal.svg'
                     : 'assets/svg/plus_square.svg',
+                width: 24,
+                height: 24,
+                fit: BoxFit.none,
               ),
               label: 'Unggah',
             ),
@@ -109,6 +118,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 currentIndex == 3
                     ? 'assets/svg/kelola_tebal.svg'
                     : 'assets/svg/kelola.svg',
+                width: 24,
+                height: 24,
+                fit: BoxFit.none,
               ),
               label: 'Kelola',
             ),
