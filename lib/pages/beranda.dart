@@ -210,7 +210,7 @@ class _BerandaPageState extends State<BerandaPage> {
                         "Lihat Semua",
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeTextColor,
+                          color: alternativeBlackTextColor,
                           fontWeight: semibold,
                         ),
                       ),
@@ -282,7 +282,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                         "Graphic Designerrrrrrrrrrrrrr",
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
-                                          color: alternativeTextColor,
+                                          color: alternativeBlackTextColor,
                                           fontWeight: medium,
                                         ),
                                         overflow: TextOverflow.ellipsis,
@@ -355,7 +355,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                       "Graphic Designerrrrrrrrrrrrrr",
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
-                                        color: alternativeTextColor,
+                                        color: alternativeBlackTextColor,
                                         fontWeight: medium,
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -427,7 +427,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                       "Graphic Designerrrrrrrrrrrrrr",
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
-                                        color: alternativeTextColor,
+                                        color: alternativeBlackTextColor,
                                         fontWeight: medium,
                                       ),
                                       overflow: TextOverflow.ellipsis,

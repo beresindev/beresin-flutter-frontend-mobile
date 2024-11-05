@@ -70,7 +70,7 @@ class _ProdukPageState extends State<ProdukPage> {
             title: Text(
               'Produk',
               style: GoogleFonts.poppins(
-                color: alternativeTextColor,
+                color: alternativeBlackTextColor,
                 fontWeight: semibold,
                 fontSize: 24,
               ),
@@ -199,7 +199,7 @@ class _ProdukPageState extends State<ProdukPage> {
                                   product['title']!,
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
-                                    color: alternativeTextColor,
+                                    color: alternativeBlackTextColor,
                                     fontWeight: medium,
                                   ),
                                   overflow: TextOverflow.ellipsis,

@@ -133,7 +133,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             "Jasa Desain Web dan Aplikasi",
                             style: GoogleFonts.poppins(
                               fontSize: 16,
-                              color: alternativeTextColor,
+                              color: alternativeBlackTextColor,
                               fontWeight: semibold,
                             ),
                           ),
@@ -142,7 +142,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             "Rp.2.000.000 - Rp.4.000.000",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                              color: alternativeTextColor,
+                              color: alternativeBlackTextColor,
                               fontWeight: regular,
                             ),
                           ),
@@ -171,7 +171,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             "Deskripsi",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                              color: alternativeTextColor,
+                              color: alternativeBlackTextColor,
                               fontWeight: semibold,
                             ),
                           ),
@@ -185,7 +185,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             "Dengan fokus pada kualitas, kami siap membantu menciptakan solusi digital yang profesional dan efektif untuk mendukung bisnis Anda di era digital.",
                             style: GoogleFonts.poppins(
                               fontSize: 12,
-                              color: alternativeTextColor,
+                              color: alternativeBlackTextColor,
                               fontWeight: FontWeight.normal,
                             ),
                           ),

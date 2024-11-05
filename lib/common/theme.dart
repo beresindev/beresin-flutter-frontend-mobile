@@ -16,7 +16,8 @@ Color debugColor = Color.fromARGB(255, 255, 0, 0);
 // text color
 Color primaryTextColor = const Color(0xffFFFFFF);
 Color secondaryTextColor = const Color(0xffBAC2C7);
-Color alternativeTextColor = const Color(0xff0E0E0E);
+Color alternativeBlackTextColor = const Color(0xff0E0E0E);
+Color alternativeWhiteTextColor = const Color(0xffFEFDFF);
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
