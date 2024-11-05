@@ -42,24 +42,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Container(
       height: 65,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Shadow color
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, -2), // Shadow offset
+        border: Border(
+          top: BorderSide(
+            width: 0.3,
+            color: alternativeBlackColor,
           ),
-        ],
+        ),
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
         child: BottomNavigationBar(
           backgroundColor: Colors.white,
           elevation: 0,

@@ -51,97 +51,116 @@ class _ProdukPageState extends State<ProdukPage> {
       "price": "Rp. 450.000",
       "image": 'assets/images/big_sale_benner.jpg'
     },
-    // Tambahkan produk lain di sini
+    // Add more products as needed
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: alternativeBackgroundColor,
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Produk',
-          style: GoogleFonts.poppins(
-            color: alternativeTextColor,
-            fontWeight: semibold,
-            fontSize: 24,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 15,
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 120,
+            pinned: true,
+            backgroundColor: alternativeBackgroundColor,
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            title: Text(
+              'Produk',
+              style: GoogleFonts.poppins(
+                color: alternativeTextColor,
+                fontWeight: semibold,
+                fontSize: 24,
+              ),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Column(
+                children: [
+                  const Spacer(),
+                  Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: alternativeBlackColor),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      horizontal: 15,
+                      vertical: 10,
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.search,
-                            size: 24, color: alternativeBlackColor),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Search collections or users',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: secondaryTextColor,
-                            fontWeight: regular,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: alternativeBlackColor,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  size: 24,
+                                  color: alternativeBlackColor,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Search collections or users',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: secondaryTextColor,
+                                    fontWeight: regular,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                        ),
+                        const SizedBox(width: 10),
+                        Icon(
+                          Icons.bookmark_border_outlined,
+                          size: 24.0,
+                          color: alternativeBlackColor,
+                        ),
+                        const SizedBox(width: 10),
+                        Icon(
+                          Icons.person_2_outlined,
+                          size: 24.0,
+                          color: alternativeBlackColor,
                         ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Icon(Icons.bookmark_border_outlined,
-                    size: 24.0, color: alternativeBlackColor),
-                const SizedBox(width: 10),
-                Icon(Icons.person_2_outlined,
-                    size: 24.0, color: alternativeBlackColor),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 15),
-            Expanded(
-              child: GridView.builder(
-                padding: EdgeInsets.zero,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Jumlah kolom
-                  mainAxisSpacing: 10, // Spasi antar baris
-                  crossAxisSpacing: 10, // Spasi antar kolom
-                  childAspectRatio:
-                      16 / 21, // Rasio aspek agar sesuai dengan desain Anda
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(15),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 16 / 20,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
                   final product = products[index];
                   return GestureDetector(
                     onTap: () {
-                      // Navigator.push(context, halamanDetailProduk());
+                      // Implement product detail navigation
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
-                      width: 160,
-                      height: 210,
                       decoration: BoxDecoration(
                         color: alternativeBackgroundColor,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -158,16 +177,13 @@ class _ProdukPageState extends State<ProdukPage> {
                             width: 150,
                             height: 115,
                             decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               child: Image.asset(
-                                // 'assets/images/big_sale_benner.jpg',
                                 product['image']!,
                                 fit: BoxFit.cover,
                               ),
@@ -206,10 +222,11 @@ class _ProdukPageState extends State<ProdukPage> {
                     ),
                   );
                 },
+                childCount: products.length,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
