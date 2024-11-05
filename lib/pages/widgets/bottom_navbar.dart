@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/pages/beranda.dart';
+import 'package:mobile_beresin/pages/produk_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   final int initialIndex;
@@ -27,7 +28,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 0:
         return const BerandaPage();
       case 1:
-        return const BerandaPage();
+        return const ProdukPage();
       case 2:
         return const BerandaPage();
       case 3:

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 Color primaryColor = const Color(0xff3C56AF);
 Color backgroundColor = const Color(0xffFAFAFA);
 Color alternativeBackgroundColor = const Color(0xffFEFDFF);
+Color alternativeBlackColor = const Color(0xff0E0E0E);
 
 Color selectedIconColor = const Color(0xff3C56AF);
 Color unselectedIconColor = const Color(0xff808080);
