@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
+import 'package:mobile_beresin/pages/detail_unggah_produk_page.dart';
 
 class UnggahProdukPage extends StatefulWidget {
   const UnggahProdukPage({super.key});
@@ -11,6 +12,27 @@ class UnggahProdukPage extends StatefulWidget {
 }
 
 class _UnggahProdukPageState extends State<UnggahProdukPage> {
+  Route halamanDetailUnggahProduk() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const DetailUnggahProdukPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset(0.0, 0.0);
+        const curve = Curves.easeInOut;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,56 +76,61 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: Column(
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, halamanDetailUnggahProduk());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Jual produk kamu disini!',
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: alternativeWhiteTextColor,
-                              fontWeight: semibold,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Jual produk kamu disini!',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: alternativeWhiteTextColor,
+                                fontWeight: semibold,
+                              ),
+                            ),
+                            Text(
+                              'Proses mudah dan nyaman',
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: alternativeWhiteTextColor,
+                                fontWeight: regular,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: categoryColor1,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25),
                             ),
                           ),
-                          Text(
-                            'Proses mudah dan nyaman',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: alternativeWhiteTextColor,
-                              fontWeight: regular,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: categoryColor1,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(30),
+                          child: SvgPicture.asset(
+                            'assets/svg/upload.svg',
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.none,
                           ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/svg/hard_disk.svg', // Use the SVG path here
-                          height: 24,
-                          width: 24,
-                          fit: BoxFit.none,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Container(

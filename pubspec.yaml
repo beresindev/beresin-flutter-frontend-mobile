@@ -40,6 +40,7 @@ dependencies:
   google_fonts: 6.1.0
   carousel_slider: ^5.0.0
   flutter_svg: ^2.0.10+1
+  image_picker: ^1.0.8
 
 dev_dependencies:
   flutter_test:
