@@ -16,6 +16,8 @@ class DetailUnggahProdukPage extends StatefulWidget {
 class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
   final TextEditingController _namaBarangController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
+  final TextEditingController _rangeHarga1Controller = TextEditingController();
+  final TextEditingController _rangeHarga2Controller = TextEditingController();
   String? _kategori;
   RangeValues _hargaRange = const RangeValues(0, 100);
 
@@ -113,7 +115,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nama barang / jasa',
+                      'Nama Barang / Jasa',
                       style: TextStyle(
                         fontSize: 14,
                         color: alternativeBlackTextColor,
@@ -192,21 +194,87 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                        'Range Harga: ${_hargaRange.start.toInt()} - ${_hargaRange.end.toInt()}'),
-                    RangeSlider(
-                      values: _hargaRange,
-                      min: 0,
-                      max: 1000,
-                      divisions: 100,
-                      labels: RangeLabels(
-                        _hargaRange.start.toString(),
-                        _hargaRange.end.toString(),
+                      'Range Harga',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: alternativeBlackTextColor,
+                        fontWeight: medium,
                       ),
-                      onChanged: (RangeValues values) {
-                        setState(() {
-                          _hargaRange = values;
-                        });
-                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _rangeHarga1Controller,
+                            decoration: InputDecoration(
+                              hintText: 'Min',
+                              hintStyle: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: secondaryTextColor,
+                                fontWeight: regular,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: secondaryTextColor,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: primaryColor,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: alternativeBlackTextColor,
+                              fontWeight: regular,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Center(
+                            child: Text(
+                              'To',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: alternativeBlackTextColor,
+                                fontWeight: medium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: _rangeHarga2Controller,
+                            decoration: InputDecoration(
+                              hintText: 'Maks',
+                              hintStyle: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: secondaryTextColor,
+                                fontWeight: regular,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: secondaryTextColor,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: primaryColor,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: alternativeBlackTextColor,
+                              fontWeight: regular,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -285,7 +353,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                       minLines: 5,
                       maxLines: null,
                       decoration: InputDecoration(
-                        hintText: 'Deskripsi',
+                        hintText: 'Tulis deskripsi',
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 14,
                           color: secondaryTextColor,
@@ -313,6 +381,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                             const EdgeInsets.fromLTRB(12, 16, 12, 8),
                       ),
                     ),
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
@@ -323,36 +392,58 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
             right: 0,
             bottom: 0,
             child: Container(
-              color: Colors.white,
+              color: backgroundColor,
               padding: const EdgeInsets.only(
-                  top: 15, bottom: 25, right: 20, left: 20),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Chat Lewat WA?',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        color: primaryTextColor,
-                        fontWeight: semibold,
+                  top: 15, bottom: 20, right: 20, left: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 160,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    decoration: BoxDecoration(
+                      color: backgroundColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      border: Border.all(
+                        width: 1,
+                        color: primaryColor,
                       ),
                     ),
-                    const SizedBox(width: 5),
-                    Icon(
-                      Icons.whatshot,
-                      color: primaryTextColor,
-                      size: 24.0,
+                    child: Center(
+                      child: Text(
+                        'Batal',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: primaryColor,
+                          fontWeight: semibold,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    width: 160,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Upload',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: primaryTextColor,
+                          fontWeight: semibold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
