@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/pages/widgets/bottom_navbar.dart';
+import 'package:mobile_beresin/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   var showPassword = true;
+  bool isLoading = false;
 
   Route halamanBeranda() {
     return PageRouteBuilder(
@@ -39,6 +42,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -173,8 +178,51 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 30),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, halamanBeranda());
+                  onTap: () async {
+                    // String? token = await FirebaseMessaging.instance.getToken();
+                    // print("ini token $token");
+                    if (_emailController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Harap isi data terlebih dahulu"),
+                        ),
+                      );
+                      setState(() {
+                        isLoading = false;
+                      });
+                    } else {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      try {
+                        await authProvider.login(
+                            _emailController.text, _passwordController.text);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BottomNavBar(),
+                          ),
+                          (route) => false,
+                        );
+                      } catch (e) {
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Login gagal: ${e.toString()}'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   },
                   child: Container(
                     width: double.infinity,

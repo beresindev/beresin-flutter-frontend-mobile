@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_beresin/pages/login_page.dart';
+import 'package:mobile_beresin/pages/splash_screen.dart';
+import 'package:mobile_beresin/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }

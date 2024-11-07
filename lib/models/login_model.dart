@@ -1,19 +1,19 @@
 import 'package:mobile_beresin/models/user_model.dart';
 
-class LoginModel {
+class AuthModel {
   final String status;
   final String message;
   final String token;
   final UserModel user;
 
-  LoginModel({
+  AuthModel({
     required this.status,
     required this.message,
     required this.token,
     required this.user,
   });
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
         status: json["status"],
         message: json["message"],
         token: json["token"],
