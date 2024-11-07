@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
+import 'package:mobile_beresin/pages/forgot_password_page.dart';
+import 'package:mobile_beresin/pages/register_page.dart';
 import 'package:mobile_beresin/pages/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -59,10 +62,11 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.lock,
-                  size: 64,
-                  color: primaryColor,
+                SvgPicture.asset(
+                  'assets/svg/logo_jempol.svg',
+                  width: 73,
+                  height: 73,
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -93,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    hintText: 'Masukan nama jasa anda',
+                    hintText: 'example@gmail.com',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: secondaryTextColor,
@@ -130,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: showPassword,
                   controller: _passwordController,
                   decoration: InputDecoration(
-                    hintText: 'Masukan nama jasa anda',
+                    // hintText: 'Masukan nama jasa anda',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: secondaryTextColor,
@@ -167,62 +171,79 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forgot Password?',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: alternativeGrayColor,
-                      fontWeight: medium,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordPage()),
+                      );
+                    },
+                    child: Text(
+                      'Forgot Password?',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: alternativeGrayColor,
+                        fontWeight: medium,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
+                  // onTap: () async {
+                  //   // String? token = await FirebaseMessaging.instance.getToken();
+                  //   // print("ini token $token");
+                  //   if (_emailController.text.isEmpty ||
+                  //       _passwordController.text.isEmpty) {
+                  //     setState(() {
+                  //       isLoading = true;
+                  //     });
+                  //     // ignore: use_build_context_synchronously
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(
+                  //         content: Text("Harap isi data terlebih dahulu"),
+                  //       ),
+                  //     );
+                  //     setState(() {
+                  //       isLoading = false;
+                  //     });
+                  //   } else {
+                  //     setState(() {
+                  //       isLoading = true;
+                  //     });
+                  //     try {
+                  //       await authProvider.login(
+                  //           _emailController.text, _passwordController.text);
+                  //       // ignore: use_build_context_synchronously
+                  //       Navigator.pushAndRemoveUntil(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => const BottomNavBar(),
+                  //         ),
+                  //         (route) => false,
+                  //       );
+                  //     } catch (e) {
+                  //       // ignore: use_build_context_synchronously
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         SnackBar(
+                  //           content: Text('Login gagal: ${e.toString()}'),
+                  //           backgroundColor: Colors.red,
+                  //         ),
+                  //       );
+                  //     }
+                  //     setState(() {
+                  //       isLoading = false;
+                  //     });
+                  //   }
+                  // },
                 GestureDetector(
-                  onTap: () async {
-                    // String? token = await FirebaseMessaging.instance.getToken();
-                    // print("ini token $token");
-                    if (_emailController.text.isEmpty ||
-                        _passwordController.text.isEmpty) {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Harap isi data terlebih dahulu"),
-                        ),
-                      );
-                      setState(() {
-                        isLoading = false;
-                      });
-                    } else {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      try {
-                        await authProvider.login(
-                            _emailController.text, _passwordController.text);
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(),
-                          ),
-                          (route) => false,
-                        );
-                      } catch (e) {
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Login gagal: ${e.toString()}'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BottomNavBar(),
+                      ),
+                    );
                   },
                   child: Container(
                     width: double.infinity,
@@ -254,6 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+
                 Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -269,7 +291,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigasi ke halaman register
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterPage()),
+                          );
                         },
                         child: Text(
                           " Sign Up",
