@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_beresin/pages/splash_screen.dart';
+import 'package:mobile_beresin/presentation/pages/splash_screen.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 

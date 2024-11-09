@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/pages/detail_unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/detail_unggah_produk_page.dart';
 
 class UnggahProdukPage extends StatefulWidget {
   const UnggahProdukPage({super.key});

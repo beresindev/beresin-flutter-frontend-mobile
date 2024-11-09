@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/pages/detail_produk_page.dart';
-import 'package:mobile_beresin/pages/widgets/carousel_widget.dart';
-import 'package:mobile_beresin/pages/widgets/tombol_layanan.dart';
+import 'package:mobile_beresin/presentation/pages/detail_produk_page.dart';
+import 'package:mobile_beresin/presentation/widgets/carousel_widget.dart';
+import 'package:mobile_beresin/presentation/widgets/tombol_layanan.dart';
 
 class BerandaPage extends StatefulWidget {
   const BerandaPage({super.key});
