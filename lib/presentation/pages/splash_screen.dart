@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/common/token_manager.dart';
-import 'package:mobile_beresin/pages/login_page.dart';
-import 'package:mobile_beresin/pages/widgets/bottom_navbar.dart';
+import 'package:mobile_beresin/presentation/pages/auth/login_page.dart';
+import 'package:mobile_beresin/presentation/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:testgetdata/views/tenant.dart';
@@ -28,9 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
         await tokenManager.getToken(); // Ambil token dari Shared Preferences
     if (token != null) {
       debugPrint("TOKEN TERSEDIA");
-      final success = await authProvider.authWithToken(errorCallback: (error) {
-        log("isoooo");
-      });
+      final success = await authProvider.getProfile(
+          token: token,
+          errorCallback: (error) {
+            log("isoooo");
+          });
       if (success) {
         debugPrint("SUKSES MASUK, TOKEN TERSEDIA");
         // ignore: use_build_context_synchronously

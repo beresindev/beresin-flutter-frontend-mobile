@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/pages/beranda.dart';
-import 'package:mobile_beresin/pages/produk_page.dart';
-import 'package:mobile_beresin/pages/unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/beranda.dart';
+import 'package:mobile_beresin/presentation/pages/produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah_produk_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   final int initialIndex;

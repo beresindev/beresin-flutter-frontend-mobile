@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/pages/widgets/bottom_navbar.dart';
+import 'package:mobile_beresin/presentation/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
