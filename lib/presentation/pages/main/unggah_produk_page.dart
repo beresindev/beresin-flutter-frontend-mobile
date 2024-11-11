@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_beresin/common/animate_route.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/detail_unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/detail_unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/draft_produk_page.dart';
+import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
+import 'package:mobile_beresin/providers/service_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UnggahProdukPage extends StatefulWidget {
   const UnggahProdukPage({super.key});
@@ -12,6 +19,20 @@ class UnggahProdukPage extends StatefulWidget {
 }
 
 class _UnggahProdukPageState extends State<UnggahProdukPage> {
+  Future<void> openWhatsappChat() async {
+    final Uri whatsappUrl = Uri.parse('https://wa.me/6287709999050');
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      // Buka aplikasi WhatsApp jika terinstal
+      await launchUrl(
+        whatsappUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      Fluttertoast.showToast(msg: 'Terjadi kesalahan, coba lagi beberapa saat');
+    }
+  }
+
   Route halamanDetailUnggahProduk() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
@@ -52,6 +73,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
             ],
           ),
           child: AppBar(
+            backgroundColor: backgroundColor,
             automaticallyImplyLeading: false,
             elevation: 0,
             scrolledUnderElevation: 0,
@@ -133,47 +155,43 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 15),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: alternativeBlackColor,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 15,
+                ),
+                PrimaryButton(
+                  color: alternativeBackgroundColor,
+                  borderColor: alternativeBlackColor,
+                  height: 60,
+                  onPressed: openWhatsappChat,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Admin BeresIn.',
+                        'Admin BeresIn',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           color: primaryColor,
                           fontWeight: semibold,
                         ),
                       ),
-                      const Icon(
-                        Icons.developer_board,
-                        size: 24.0,
-                      ),
+                      Image.asset(
+                        'assets/images/whatsapp.png',
+                        height: 28,
+                      )
                     ],
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: alternativeBlackColor,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 10,
+                ),
+                PrimaryButton(
+                  color: alternativeBackgroundColor,
+                  borderColor: alternativeBlackColor,
+                  height: 80,
+                  onPressed: () {
+                    Navigator.push(
+                        context, AnimateRoute.toPage(const DraftProdukPage()));
+                  },
                   child: Row(
                     children: [
                       const Icon(
@@ -185,7 +203,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Status Produk',
+                            'Draft Produk',
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               color: primaryColor,
@@ -193,7 +211,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             ),
                           ),
                           Text(
-                            '3 Produk dalam riview',
+                            '${context.watch<ServiceProvider>().getOnReviewProduct()} Produk dalam review',
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: unselectedIconColor,
@@ -209,7 +227,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

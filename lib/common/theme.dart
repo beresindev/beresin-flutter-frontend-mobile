@@ -14,6 +14,10 @@ Color categoryColor2 = const Color(0xffFFF6D1);
 Color categoryColor3 = const Color(0xffF5D1FF);
 Color debugColor = Color.fromARGB(255, 255, 0, 0);
 
+Color pendingColor = const Color(0xFFFFA500);
+Color approveColor = const Color(0xFF4CAF50);
+Color rejectedColor = const Color(0xFFF44336);
+
 // text color
 Color primaryTextColor = const Color(0xffFFFFFF);
 Color secondaryTextColor = const Color(0xffBAC2C7);

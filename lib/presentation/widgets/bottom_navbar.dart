@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/beranda.dart';
-import 'package:mobile_beresin/presentation/pages/produk_page.dart';
-import 'package:mobile_beresin/presentation/pages/unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/main/beranda.dart';
+import 'package:mobile_beresin/presentation/pages/main/kelola_page.dart';
+import 'package:mobile_beresin/presentation/pages/main/produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/main/unggah_produk_page.dart';
+import 'package:mobile_beresin/providers/dashboard_provider.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   final int initialIndex;
@@ -32,8 +35,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         return const ProdukPage();
       case 2:
         return const UnggahProdukPage();
-      case 3:
-        return const BerandaPage();
+      // case 3:
+      //   return const KelolaPage();
       default:
         return const BerandaPage();
     }
@@ -105,17 +108,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
               label: 'Unggah',
             ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                currentIndex == 3
-                    ? 'assets/svg/kelola_tebal.svg'
-                    : 'assets/svg/kelola.svg',
-                width: 24,
-                height: 24,
-                fit: BoxFit.none,
-              ),
-              label: 'Kelola',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: SvgPicture.asset(
+            //     currentIndex == 3
+            //         ? 'assets/svg/kelola_tebal.svg'
+            //         : 'assets/svg/kelola.svg',
+            //     width: 24,
+            //     height: 24,
+            //     fit: BoxFit.none,
+            //   ),
+            //   label: 'Kelola',
+            // ),
           ],
         ),
       ),
@@ -124,9 +127,60 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    DashboardProvider dashboardProvider =
+        Provider.of<DashboardProvider>(context);
+
     return Scaffold(
-      body: body(), // Menampilkan konten berdasarkan currentIndex
-      bottomNavigationBar: customBottomNav(), // Custom bottom navigation bar
+      body: dashboardProvider.pages[dashboardProvider
+          .currentIndex], // Menampilkan halaman berdasarkan currentIndex
+      bottomNavigationBar: Container(
+        height: 65,
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              width: 0.3,
+              color: Colors.black, // alternativeBlackColor
+            ),
+          ),
+        ),
+        child: ClipRRect(
+          child: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            currentIndex: dashboardProvider.currentIndex,
+            onTap: (value) {
+              dashboardProvider.setIndex(value);
+            },
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.blue, // selectedIconColor
+            unselectedItemColor: Colors.grey, // unselectedIconColor
+            selectedLabelStyle: TextStyle(
+              fontSize: 11,
+              color: Colors.blue, // selectedIconColor
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 11,
+              color: Colors.grey, // unselectedIconColor
+            ),
+            items: dashboardProvider.dashboardMenu.map(
+              (item) {
+                return BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    dashboardProvider.currentIndex ==
+                            dashboardProvider.dashboardMenu.indexOf(item)
+                        ? item[2]
+                        : item[1],
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.none,
+                  ),
+                  label: item[0],
+                );
+              },
+            ).toList(),
+          ),
+        ),
+      ),
     );
   }
 }

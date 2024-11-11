@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_beresin/constants/api_constants.dart';
-import 'package:mobile_beresin/models/login_model.dart';
+import 'package:mobile_beresin/models/auth_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_beresin/models/user_model.dart';
 
@@ -24,6 +24,38 @@ class AuthService {
         return AuthModel.fromJson(responseData);
       } else {
         throw Exception("Failed to login: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AuthModel> register({
+    required String name,
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse("${ApiConstants.baseUrl}${ApiConstants.registerEndpoint}"),
+        headers: {"content-type": "application/json"},
+        body: jsonEncode({
+          "name": name,
+          "username": username,
+          "phone": '0$phone',
+          "email": email,
+          "password": password,
+        }),
+      );
+      debugPrint(response.body);
+      if (response.statusCode == 201) {
+        final responseData = jsonDecode(response.body);
+        return AuthModel.fromJson(responseData);
+      } else {
+        log('qq error');
+        throw "Failed to register: ${response.reasonPhrase}";
       }
     } catch (e) {
       rethrow;

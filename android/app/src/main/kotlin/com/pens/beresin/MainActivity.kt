@@ -1,4 +1,4 @@
-package com.example.mobile_beresin
+package com.pens.beresin
 
 import io.flutter.embedding.android.FlutterActivity
 

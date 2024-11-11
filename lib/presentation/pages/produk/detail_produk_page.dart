@@ -1,22 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
+import 'package:mobile_beresin/models/category_model.dart';
+import 'package:mobile_beresin/models/service_model.dart';
+import 'package:mobile_beresin/providers/service_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailProdukPage extends StatefulWidget {
-  const DetailProdukPage({super.key});
+  final ServiceModel item;
+  const DetailProdukPage({super.key, required this.item});
 
   @override
   State<DetailProdukPage> createState() => _DetailProdukPageState();
 }
 
 class _DetailProdukPageState extends State<DetailProdukPage> {
-  final List<String> imagePaths = [
-    'assets/images/jasa_pengurusan_K3.jpg',
-    'assets/images/big_sale_benner.jpg',
-    'assets/images/jasa_pengurusan_K3.jpg',
-  ];
+  List<String> imagePaths = [];
+  late CategoryModel category;
+
+  Future<void> openWhatsappChat() async {
+    final Uri whatsappUrl = Uri.parse('https://wa.me/${widget.item.phone}');
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      // Buka aplikasi WhatsApp jika terinstal
+      await launchUrl(
+        whatsappUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      Fluttertoast.showToast(msg: 'Terjadi kesalahan, coba lagi beberapa saat');
+    }
+  }
 
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    for (String image in widget.item.images) {
+      imagePaths.add('http://178.128.21.130:3000/$image');
+    }
+    ServiceProvider serviceProvider =
+        Provider.of<ServiceProvider>(context, listen: false);
+
+    category = serviceProvider.categories.where(
+      (e) {
+        return e.id == widget.item.categoryId;
+      },
+    ).first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +82,11 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                         size: 24,
                       ),
                     ),
-                    const Icon(
-                      Icons.bookmark_border_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
+                    // const Icon(
+                    //   Icons.bookmark_border_rounded,
+                    //   color: Colors.white,
+                    //   size: 24,
+                    // ),
                   ],
                 ),
                 flexibleSpace: FlexibleSpaceBar(
@@ -70,7 +104,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                           return Stack(
                             fit: StackFit.expand,
                             children: [
-                              Image.asset(
+                              Image.network(
                                 imagePaths[index],
                                 fit: BoxFit.cover,
                               ),
@@ -130,20 +164,20 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Jasa Desain Web dan Aplikasi",
+                            category.nameOfCategory,
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              color: primaryColor,
+                              fontWeight: semibold,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            widget.item.nameOfService,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               color: alternativeBlackTextColor,
                               fontWeight: semibold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            "Rp.2.000.000 - Rp.4.000.000",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: regular,
                             ),
                           ),
                         ],
@@ -175,14 +209,9 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                               fontWeight: semibold,
                             ),
                           ),
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 10),
                           Text(
-                            "Kami menawarkan layanan desain web dan aplikasi yang modern, responsif, dan berfokus pada pengalaman pengguna (UX) serta antarmuka (UI) yang menarik.\n\n"
-                            "Layanan Utama:\n\n"
-                            "1. Desain Website: Website responsif yang optimal di berbagai perangkat, didukung navigasi yang intuitif dan visual menarik sesuai identitas merek Anda.\n"
-                            "2. Desain Aplikasi Mobile: Desain aplikasi untuk Android dan iOS yang user-friendly dan fungsional, lengkap dengan prototipe interaktif untuk pengalaman nyata sebelum peluncuran.\n"
-                            "3. Desain Custom & Branding: Desain sesuai branding bisnis Anda dengan estetika modern dan SEO-friendly untuk membantu peningkatan visibilitas online.\n\n"
-                            "Dengan fokus pada kualitas, kami siap membantu menciptakan solusi digital yang profesional dan efektif untuk mendukung bisnis Anda di era digital.",
+                            widget.item.description,
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: alternativeBlackTextColor,
@@ -208,32 +237,35 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
               color: Colors.white,
               padding: const EdgeInsets.only(
                   top: 15, bottom: 25, right: 20, left: 20),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Chat Lewat WA?',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        color: primaryTextColor,
-                        fontWeight: semibold,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Chat Lewat WA?',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: primaryTextColor,
+                          fontWeight: semibold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 5),
-                    Icon(
-                      Icons.whatshot,
-                      color: primaryTextColor,
-                      size: 24.0,
-                    ),
-                  ],
+                      const SizedBox(width: 5),
+                      Icon(
+                        Icons.whatshot,
+                        color: primaryTextColor,
+                        size: 24.0,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

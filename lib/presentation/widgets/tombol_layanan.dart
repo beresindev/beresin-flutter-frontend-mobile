@@ -22,7 +22,7 @@ class TombolLayanan extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 80,
+        // width: 80,
         height: 90,
         padding: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(

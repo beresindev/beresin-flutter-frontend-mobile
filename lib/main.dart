@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_beresin/presentation/pages/splash_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:mobile_beresin/presentation/pages/auth/splash_screen.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
+import 'package:mobile_beresin/providers/dashboard_provider.dart';
+import 'package:mobile_beresin/providers/service_provider.dart';
+import 'package:mobile_beresin/services/upload_service_source.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  await initializeDateFormatting('id_ID', null);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ServiceProvider()),
+        ChangeNotifierProvider(create: (_) => DashboardProvider()),
       ],
       child: const MyApp(),
     ),

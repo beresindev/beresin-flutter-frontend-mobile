@@ -13,8 +13,7 @@ class FormatDate {
   }
 
   static String formatDateTime(DateTime dateTime) {
-    final DateFormat formatter =
-        DateFormat('EEEE, dd MMMM yyyy HH:mm', 'id_ID');
+    final DateFormat formatter = DateFormat('dd MMMM yyyy, HH:mm', 'id_ID');
     String formatted = formatter.format(dateTime);
 
     return formatted;

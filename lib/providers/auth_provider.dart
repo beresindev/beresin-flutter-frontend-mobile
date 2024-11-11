@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobile_beresin/common/token_manager.dart';
-import 'package:mobile_beresin/models/login_model.dart';
+import 'package:mobile_beresin/models/auth_model.dart';
 import 'package:mobile_beresin/models/user_model.dart';
 import 'package:mobile_beresin/services/auth_service.dart';
 
@@ -15,13 +15,45 @@ class AuthProvider extends ChangeNotifier {
     try {
       log("Proses login dimulai...");
       AuthModel? auth = await AuthService().login(email, password);
-      await getProfile(token: auth.token);
+      // await getProfile(token: auth.token);
+      _user = auth.user;
+      notifyListeners();
       tokenManager.putToken(auth.token); // Pastikan ini tidak error
       log("Login berhasil, token disimpan.");
       log("Token tersimpan: ${auth.token}");
       return true;
     } catch (e) {
       log("Terjadi kesalahan saat login:");
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> register({
+    required String name,
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      log("Proses register dimulai...");
+      AuthModel auth = await AuthService().register(
+        name: name,
+        username: username,
+        email: email,
+        phone: phone,
+        password: password,
+      );
+      _user = auth.user;
+      notifyListeners();
+      // await getProfile(token: auth.token);
+      tokenManager.putToken(auth.token); // Pastikan ini tidak error
+      log("Register berhasil, token disimpan.");
+      log("Token tersimpan: ${auth.token}");
+      return true;
+    } catch (e) {
+      log("Terjadi kesalahan saat register:");
       log(e.toString());
       rethrow;
     }

@@ -7,6 +7,7 @@ import 'package:mobile_beresin/common/token_manager.dart';
 import 'package:mobile_beresin/presentation/pages/auth/login_page.dart';
 import 'package:mobile_beresin/presentation/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
+import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:testgetdata/views/tenant.dart';
 
@@ -21,6 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   final tokenManager = TokenManager();
   late AuthProvider authProvider =
       Provider.of<AuthProvider>(context, listen: false);
+  late ServiceProvider serviceProvider =
+      Provider.of<ServiceProvider>(context, listen: false);
 
   Future authCheck() async {
     debugPrint("MASUK TOKEN AUTH");
@@ -34,6 +37,8 @@ class _SplashScreenState extends State<SplashScreen> {
             log("isoooo");
           });
       if (success) {
+        await serviceProvider.getCategories();
+        await serviceProvider.getDraftServices();
         debugPrint("SUKSES MASUK, TOKEN TERSEDIA");
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(

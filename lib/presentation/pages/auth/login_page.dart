@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
+import 'package:mobile_beresin/presentation/pages/auth/register_page.dart';
 import 'package:mobile_beresin/presentation/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
+import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -201,8 +204,11 @@ class _LoginPageState extends State<LoginPage> {
                       });
                       try {
                         await authProvider.login(
-                            _emailController.text, _passwordController.text);
-                        // ignore: use_build_context_synchronously
+                          _emailController.text,
+                          _passwordController.text,
+                        );
+                        await serviceProvider.getCategories();
+                        await serviceProvider.getDraftServices();
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -269,7 +275,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigasi ke halaman register
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterPage(),
+                              ));
                         },
                         child: Text(
                           " Sign Up",
