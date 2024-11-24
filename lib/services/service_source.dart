@@ -83,6 +83,61 @@ class ServiceSource {
     }
   }
 
+  // Future<bool> uploadDataJson({
+  //   required String token,
+  //   required String namaBarang,
+  //   required String deskripsi,
+  //   required String kategori,
+  //   required List<String> pathImages, // daftar path gambar
+  // }) async {
+  //   final uri =
+  //       Uri.parse('${ApiConstants.baseUrl}${ApiConstants.postUploadService}');
+
+  //   try {
+  //     // Menyusun header untuk JSON
+  //     var headers = {
+  //       "Content-Type": "application/json", // Menggunakan content-type JSON
+  //       'Authorization': 'Bearer $token',
+  //     };
+
+  //     // Membaca file gambar dan mengonversinya ke base64
+  //     List<String> base64Images = [];
+  //     for (String imagePath in pathImages) {
+  //       File imageFile = File(imagePath);
+  //       if (await imageFile.exists()) {
+  //         // Membaca file dan mengonversinya menjadi base64
+  //         List<int> imageBytes = await imageFile.readAsBytes();
+  //         String base64Image = base64Encode(imageBytes);
+  //         base64Images.add(base64Image);
+  //         log('Image converted to base64: $base64Image');
+  //       } else {
+  //         throw Exception('File not found: $imagePath');
+  //       }
+  //     }
+
+  //     // Menyiapkan data untuk dikirimkan dalam body JSON
+  //     var body = jsonEncode({
+  //       "name_of_service": namaBarang,
+  //       "description": deskripsi,
+  //       "category_id": kategori,
+  //       "images": base64Images, // Mengirim gambar sebagai array base64
+  //     });
+
+  //     // Mengirimkan POST request dengan body JSON
+  //     var response = await http.post(uri, headers: headers, body: body);
+
+  //     if (response.statusCode == 201) {
+  //       log('Success: ${response.body}');
+  //       return true;
+  //     } else {
+  //       // Menangkap status code yang tidak berhasil
+  //       throw jsonDecode(response.body)['message'];
+  //     }
+  //   } catch (e) {
+  //     // Menangkap exception jika ada kesalahan jaringan atau lainnya
+  //     rethrow;
+  //   }
+  // }
   Future<bool> uploadDataJson({
     required String token,
     required String namaBarang,
@@ -94,44 +149,42 @@ class ServiceSource {
         Uri.parse('${ApiConstants.baseUrl}${ApiConstants.postUploadService}');
 
     try {
-      // Menyusun header untuk JSON
-      var headers = {
-        "Content-Type": "application/json", // Menggunakan content-type JSON
-        'Authorization': 'Bearer $token',
-      };
+      // Membuat request multipart
+      var request = http.MultipartRequest('POST', uri);
 
-      // Membaca file gambar dan mengonversinya ke base64
-      List<String> base64Images = [];
+      // Menambahkan headers
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Menambahkan field data
+      request.fields['name_of_service'] = namaBarang;
+      request.fields['description'] = deskripsi;
+      request.fields['category_id'] = kategori;
+
+      // Menambahkan file ke dalam request
       for (String imagePath in pathImages) {
         File imageFile = File(imagePath);
         if (await imageFile.exists()) {
-          // Membaca file dan mengonversinya menjadi base64
-          List<int> imageBytes = await imageFile.readAsBytes();
-          String base64Image = base64Encode(imageBytes);
-          base64Images.add(base64Image);
-          log('Image converted to base64: $base64Image');
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              'images', // nama field di server
+              imagePath,
+            ),
+          );
         } else {
           throw Exception('File not found: $imagePath');
         }
       }
 
-      // Menyiapkan data untuk dikirimkan dalam body JSON
-      var body = jsonEncode({
-        "name_of_service": namaBarang,
-        "description": deskripsi,
-        "category_id": kategori,
-        "images": base64Images, // Mengirim gambar sebagai array base64
-      });
+      // Mengirimkan request
+      var streamedResponse = await request.send();
 
-      // Mengirimkan POST request dengan body JSON
-      var response = await http.post(uri, headers: headers, body: body);
-
-      if (response.statusCode == 201) {
-        log('Success: ${response.body}');
+      // Menangani respons dari server
+      if (streamedResponse.statusCode == 201) {
+        log('Success: ${await streamedResponse.stream.bytesToString()}');
         return true;
       } else {
-        // Menangkap status code yang tidak berhasil
-        throw jsonDecode(response.body)['message'];
+        var errorResponse = await streamedResponse.stream.bytesToString();
+        throw jsonDecode(errorResponse)['message'];
       }
     } catch (e) {
       // Menangkap exception jika ada kesalahan jaringan atau lainnya

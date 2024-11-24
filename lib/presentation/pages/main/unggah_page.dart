@@ -4,21 +4,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/animate_route.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/detail_unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/unggah_produk_page.dart';
 import 'package:mobile_beresin/presentation/pages/unggah/draft_produk_page.dart';
 import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UnggahProdukPage extends StatefulWidget {
-  const UnggahProdukPage({super.key});
+class UnggahPage extends StatefulWidget {
+  const UnggahPage({super.key});
 
   @override
-  State<UnggahProdukPage> createState() => _UnggahProdukPageState();
+  State<UnggahPage> createState() => _UnggahPageState();
 }
 
-class _UnggahProdukPageState extends State<UnggahProdukPage> {
+class _UnggahPageState extends State<UnggahPage> {
   Future<void> openWhatsappChat() async {
     final Uri whatsappUrl = Uri.parse('https://wa.me/6287709999050');
 
@@ -36,7 +36,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
   Route halamanDetailUnggahProduk() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const DetailUnggahProdukPage(),
+          const UnggahProdukPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset(0.0, 0.0);

@@ -77,7 +77,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                         Navigator.pop(context);
                       },
                       child: const Icon(
-                        Icons.keyboard_backspace,
+                        Icons.arrow_back_sharp,
                         color: Colors.white,
                         size: 24,
                       ),

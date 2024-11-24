@@ -21,8 +21,10 @@ class _ProdukPageState extends State<ProdukPage> {
 
   Widget listProduk(ServiceProvider provider) {
     if (provider.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return const SliverToBoxAdapter(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     } else {
       return SliverPadding(
@@ -55,7 +57,7 @@ class _ProdukPageState extends State<ProdukPage> {
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
-                expandedHeight: 140,
+                expandedHeight: 130,
                 pinned: true,
                 backgroundColor: alternativeBackgroundColor,
                 automaticallyImplyLeading: false,

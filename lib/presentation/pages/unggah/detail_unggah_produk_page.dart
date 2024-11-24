@@ -1,118 +1,46 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:mobile_beresin/common/currency_format.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/models/category_model.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/draft_produk_page.dart';
+import 'package:mobile_beresin/models/service_model.dart';
+import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 
 class DetailUnggahProdukPage extends StatefulWidget {
-  const DetailUnggahProdukPage({super.key});
+  final ServiceModel item;
+  const DetailUnggahProdukPage({super.key, required this.item});
 
   @override
   State<DetailUnggahProdukPage> createState() => _DetailUnggahProdukPageState();
 }
 
 class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
-  final TextEditingController _namaBarangController = TextEditingController();
-  final TextEditingController _deskripsiController = TextEditingController();
-  final TextEditingController _rangeHarga1Controller = TextEditingController();
-  final TextEditingController _rangeHarga2Controller = TextEditingController();
-  String? _kategori;
-  RangeValues _hargaRange = const RangeValues(0, 100);
-  String? _kategoriId;
+  List<String> imagePaths = [];
+  late CategoryModel category;
 
-  late ImagePicker _imagePicker;
-  List<String> selectedImagesPath = [];
-
-  Future<void> onUploadData() async {
-    log('kepetek');
-    await context
-        .read<ServiceProvider>()
-        .uploadData(
-          imagePaths: selectedImagesPath,
-          namaBarang: _namaBarangController.text,
-          deskripsi: _deskripsiController.text,
-          kategori: _kategoriId ?? '',
-          // rangeHargaMin: _rangeHarga1Controller.text,
-          // rangeHargaMax: _rangeHarga2Controller.text,
-        )
-        .then(
-      (value) {
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DraftProdukPage(),
-            ));
-      },
-    ).onError(
-      (error, stackTrace) {
-        Fluttertoast.showToast(
-          msg: error.toString(),
-          backgroundColor: debugColor,
-        );
-      },
-    );
-  }
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _imagePicker = ImagePicker();
-  }
-
-  Future<void> _getImageFromGallery() async {
-    if (selectedImagesPath.length < 2) {
-      // hanya akan menambah gambar jika jumlahnya kurang dari 2
-      final pickedImage =
-          await _imagePicker.pickImage(source: ImageSource.gallery);
-      if (pickedImage != null) {
-        // Mendapatkan ukuran file gambar
-        File imageFile = File(pickedImage.path);
-        int imageSizeInBytes = await imageFile.length();
-
-        // Mengonversi ukuran ke MB (1 MB = 1024 * 1024 bytes)
-        double imageSizeInMB = imageSizeInBytes / (1024 * 1024);
-
-        // Memeriksa apakah ukuran gambar lebih kecil dari 5 MB
-        if (imageSizeInMB <= 5) {
-          selectedImagesPath = [...selectedImagesPath, pickedImage.path];
-          setState(() {});
-        } else {
-          // Menampilkan toast jika gambar terlalu besar
-          Fluttertoast.showToast(
-            msg: "Ukuran gambar terlalu besar. Maksimal 5 MB.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-        }
-      }
-    } else {
-      // Menampilkan toast jika user mencoba memilih lebih dari 2 gambar
-      Fluttertoast.showToast(
-        msg: "Anda hanya bisa memilih maksimal 2 gambar",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+    for (String image in widget.item.images) {
+      imagePaths.add('http://178.128.21.130:3000/$image');
     }
+    ServiceProvider serviceProvider =
+        Provider.of<ServiceProvider>(context, listen: false);
+
+    category = serviceProvider.categories.where(
+      (e) {
+        return e.id == widget.item.categoryId;
+      },
+    ).first;
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<ServiceProvider>();
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
@@ -141,440 +69,271 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                     Navigator.pop(context);
                   },
                   child: const Icon(
-                    Icons.keyboard_backspace,
+                    Icons.arrow_back_sharp,
                     color: Colors.white,
                     size: 24,
                   ),
                 ),
                 const SizedBox(width: 15),
                 Text(
-                  'Unggah',
+                  'Lihat Daftar',
                   style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontWeight: FontWeight.w600, // semibold
                     fontSize: 16,
                   ),
                 ),
-                const Spacer(),
-                const Icon(
-                  Icons.more_vert_outlined,
-                  size: 24.0,
-                  color: Colors.white,
-                ),
               ],
             ),
           ),
         ),
       ),
-      body: provider.isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Stack(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nama Barang / Jasa',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: medium,
-                            ),
-                          ),
-                          TextField(
-                            controller: _namaBarangController,
-                            decoration: InputDecoration(
-                              hintText: 'Masukan nama jasa anda',
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: secondaryTextColor,
-                                fontWeight: regular,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: secondaryTextColor,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: primaryColor,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: regular,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Kategori',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: medium,
-                            ),
-                          ),
-                          DropdownButtonFormField<String>(
-                            value: _kategoriId,
-                            items: context
-                                .read<ServiceProvider>()
-                                .categories
-                                .map((kategori) {
-                              return DropdownMenuItem<String>(
-                                value: kategori.id
-                                    .toString(), // Use id as the value
-                                child: Text(
-                                  kategori
-                                      .nameOfCategory, // Display the category name
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: alternativeBlackTextColor,
-                                    fontWeight: regular,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _kategoriId =
-                                    value; // Convert string id back to int
-                              });
-                              log(value ?? 'kosong');
+      body: SizedBox(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                height: 250, // Atur tinggi carousel
+                child: Stack(
+                  children: [
+                    PageView.builder(
+                      itemCount: imagePaths.length,
+                      onPageChanged: (index) {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          child: Image.network(
+                            imagePaths[index],
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) return child;
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
-                            decoration: InputDecoration(
-                              hintText: 'Pilih Kategori',
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: secondaryTextColor,
-                                fontWeight: regular,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: secondaryTextColor,
-                                ),
-                              ),
-                            ),
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                  child: Icon(Icons.broken_image, size: 50));
+                            },
                           ),
-                          const SizedBox(height: 16),
-                          // Text(
-                          //   'Range Harga',
-                          //   style: TextStyle(
-                          //     fontSize: 14,
-                          //     color: alternativeBlackTextColor,
-                          //     fontWeight: medium,
-                          //   ),
-                          // ),
-                          // Row(
-                          //   children: [
-                          //     Expanded(
-                          //       child: TextField(
-                          //         controller: _rangeHarga1Controller,
-                          //         decoration: InputDecoration(
-                          //           hintText: 'Min',
-                          //           hintStyle: GoogleFonts.poppins(
-                          //             fontSize: 14,
-                          //             color: secondaryTextColor,
-                          //             fontWeight: regular,
-                          //           ),
-                          //           enabledBorder: UnderlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //               color: secondaryTextColor,
-                          //             ),
-                          //           ),
-                          //           focusedBorder: UnderlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //               color: primaryColor,
-                          //               width: 2,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         style: GoogleFonts.poppins(
-                          //           fontSize: 14,
-                          //           color: alternativeBlackTextColor,
-                          //           fontWeight: regular,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Container(
-                          //       margin:
-                          //           const EdgeInsets.symmetric(horizontal: 20),
-                          //       child: Center(
-                          //         child: Text(
-                          //           'To',
-                          //           style: TextStyle(
-                          //             fontSize: 14,
-                          //             color: alternativeBlackTextColor,
-                          //             fontWeight: medium,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Expanded(
-                          //       child: TextField(
-                          //         controller: _rangeHarga2Controller,
-                          //         decoration: InputDecoration(
-                          //           hintText: 'Maks',
-                          //           hintStyle: GoogleFonts.poppins(
-                          //             fontSize: 14,
-                          //             color: secondaryTextColor,
-                          //             fontWeight: regular,
-                          //           ),
-                          //           enabledBorder: UnderlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //               color: secondaryTextColor,
-                          //             ),
-                          //           ),
-                          //           focusedBorder: UnderlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //               color: primaryColor,
-                          //               width: 2,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         style: GoogleFonts.poppins(
-                          //           fontSize: 14,
-                          //           color: alternativeBlackTextColor,
-                          //           fontWeight: regular,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Unggah 2 Foto',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: medium,
+                        );
+                      },
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(imagePaths.length, (index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            width: currentIndex == index ? 10 : 6,
+                            height: currentIndex == index ? 10 : 6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: currentIndex == index
+                                  ? Colors.white
+                                  : Colors.grey.withOpacity(0.5),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: _getImageFromGallery,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: primaryColor,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Unggah',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      color: primaryColor,
-                                      fontWeight: semibold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  SvgPicture.asset(
-                                    'assets/svg/upload.svg',
-                                    height: 24,
-                                    width: 24,
-                                    fit: BoxFit.none,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Format gambar png atau jpg',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: secondaryTextColor,
-                              fontWeight: medium,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          if (selectedImagesPath.isNotEmpty)
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  ...selectedImagesPath.map(
-                                    (image) {
-                                      int index = selectedImagesPath.indexOf(
-                                          image); // Mendapatkan index gambar
-                                      return Stack(
-                                        children: [
-                                          Image.file(
-                                            File(image),
-                                            height: 150,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedImagesPath.removeAt(
-                                                      index); // Menghapus gambar berdasarkan index
-                                                });
-                                              },
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black
-                                                      .withOpacity(0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
-
-                          const SizedBox(height: 16),
-                          Text(
-                            'Deskripsi',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: alternativeBlackTextColor,
-                              fontWeight: medium,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          TextField(
-                            controller: _deskripsiController,
-                            maxLength: 300,
-                            minLines: 5,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              hintText: 'Tulis deskripsi',
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: secondaryTextColor,
-                                fontWeight: regular,
-                              ),
-                              alignLabelWithHint: true,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                                borderSide: BorderSide(
-                                  color: alternativeBlackColor,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                                borderSide: BorderSide(
-                                  color: primaryColor,
-                                  width: 2,
-                                ),
-                              ),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(12, 16, 12, 8),
-                            ),
-                          ),
-                          const SizedBox(height: 120),
-                        ],
+                          );
+                        }),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    color: backgroundColor,
-                    padding: const EdgeInsets.only(
-                        top: 15, bottom: 20, right: 20, left: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              // Center(
+              //   child: PrimaryButton(
+              //     onPressed: () {},
+              //     width: 70,
+              //     height: 70,
+              //     borderRadius: 35,
+              //     child: const Icon(
+              //       Icons.developer_board,
+              //       size: 24,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.item.nameOfService,
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: alternativeBlackTextColor,
+                      fontWeight: semibold,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        FormatCurrency.intToStringCurrency(
+                            widget.item.minPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: alternativeBlackTextColor,
+                          fontWeight: regular,
+                        ),
+                      ),
+                      Text(
+                        ' - ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: alternativeBlackTextColor,
+                          fontWeight: regular,
+                        ),
+                      ),
+                      Text(
+                        FormatCurrency.intToStringCurrency(
+                            widget.item.maxPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: alternativeBlackTextColor,
+                          fontWeight: regular,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
                       children: [
                         Container(
-                          width: 160,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          height: 50,
+                          width: 50,
                           decoration: BoxDecoration(
-                            color: backgroundColor,
+                            color: primaryColor,
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            border: Border.all(
-                              width: 1,
-                              color: primaryColor,
+                              Radius.circular(25),
                             ),
                           ),
-                          child: Center(
-                            child: Text(
-                              'Batal',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: primaryColor,
-                                fontWeight: semibold,
-                              ),
-                            ),
+                          child: const Icon(
+                            Icons.edit,
+                            size: 30,
+                            color: Colors.white,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: onUploadData,
-                          child: Container(
-                            width: 160,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Upload',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  color: primaryTextColor,
-                                  fontWeight: semibold,
-                                ),
-                              ),
-                            ),
+                        Text(
+                          'Edit',
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 12,
+                            color: alternativeBlackTextColor,
+                            fontWeight: medium,
                           ),
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(width: 40),
+                    Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.delete_outline_outlined,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'Hapus',
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 12,
+                            color: alternativeBlackTextColor,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 40),
+                    Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.rocket_launch_outlined,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'Boost',
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 12,
+                            color: alternativeBlackTextColor,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Deskripsi",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: alternativeBlackTextColor,
+                        fontWeight: semibold,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      widget.item.description,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: alternativeBlackTextColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 105,
+              ),
+            ],
+          ),
+        ),
+        // ],
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/detail_unggah_produk_page.dart';
 import 'package:mobile_beresin/presentation/widgets/draft_produk_card.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +44,7 @@ class _DraftProdukPageState extends State<DraftProdukPage> {
                     Navigator.pop(context);
                   },
                   child: const Icon(
-                    Icons.keyboard_backspace,
+                    Icons.arrow_back_sharp,
                     color: Colors.white,
                     size: 24,
                   ),
@@ -64,7 +63,7 @@ class _DraftProdukPageState extends State<DraftProdukPage> {
           ),
         ),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
@@ -91,7 +90,7 @@ class _DraftProdukPageState extends State<DraftProdukPage> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Expanded(
               child: SingleChildScrollView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // color pallet
 Color primaryColor = const Color(0xff3C56AF);
@@ -29,3 +30,7 @@ FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight semibold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
+
+TextStyle primaryTextStyle = GoogleFonts.poppins(
+  color: alternativeBlackTextColor,
+);

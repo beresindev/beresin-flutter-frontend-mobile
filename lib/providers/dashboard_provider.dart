@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_beresin/presentation/pages/main/beranda.dart';
 import 'package:mobile_beresin/presentation/pages/main/produk_page.dart';
-import 'package:mobile_beresin/presentation/pages/main/unggah_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/main/unggah_page.dart';
 
 class DashboardProvider with ChangeNotifier {
   int _currentIndex = 0;
@@ -24,7 +24,7 @@ class DashboardProvider with ChangeNotifier {
       'Unggah',
       'assets/svg/plus_square.svg',
       'assets/svg/plus_square_tebal.svg',
-      const UnggahProdukPage(),
+      const UnggahPage(),
     ],
   ];
 

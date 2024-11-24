@@ -20,6 +20,12 @@ class ServiceProvider with ChangeNotifier {
   String _searchKeyword = '';
   String get searchKeyword => _searchKeyword;
 
+  late int _minPrice;
+  int get minPrice => _minPrice;
+
+  late int _maxPrice;
+  int get maxPrice => _maxPrice;
+
   List<CategoryModel> _categories = [];
   List<CategoryModel> get categories => _categories;
 
@@ -33,6 +39,9 @@ class ServiceProvider with ChangeNotifier {
       List<ServiceModel> result = await ServiceSource().getAllServices(
         token: (await tokenManager.getToken())!,
       );
+
+      result.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
       _services = result;
       isLoading = false;
       notifyListeners();
@@ -61,6 +70,9 @@ class ServiceProvider with ChangeNotifier {
       List<ServiceModel> result = await ServiceSource().getDraftService(
         token: (await tokenManager.getToken())!,
       );
+
+      result.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
       _draftServices = result;
       isLoading = false;
       notifyListeners();
@@ -83,6 +95,16 @@ class ServiceProvider with ChangeNotifier {
 
   set searchKeyword(String value) {
     _searchKeyword = value;
+    notifyListeners();
+  }
+
+  set minPrice(int value) {
+    _minPrice = value;
+    notifyListeners();
+  }
+
+  set maxPrice(int value) {
+    _maxPrice = value;
     notifyListeners();
   }
 
@@ -151,6 +173,8 @@ class ServiceProvider with ChangeNotifier {
     required String namaBarang,
     required String deskripsi,
     required String kategori,
+    required int minPrice,
+    required int maxPrice,
     required List<String> imagePaths,
   }) async {
     // selectedImagePaths = imagePaths;
@@ -165,11 +189,14 @@ class ServiceProvider with ChangeNotifier {
         namaBarang: namaBarang,
         deskripsi: deskripsi,
         kategori: kategori,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
         pathImages: imagePaths,
       );
       draftServices.add(uploadSuccess);
       notifyListeners();
     } catch (e) {
+      log('jancokkkkkkkkkkk');
       log(e.toString());
       isLoading = false;
       notifyListeners();

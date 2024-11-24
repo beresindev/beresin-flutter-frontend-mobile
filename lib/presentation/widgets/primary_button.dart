@@ -14,6 +14,7 @@ class PrimaryButton extends StatelessWidget {
   final double? elevation;
   final Color? borderColor;
   final bool? reverseLoading;
+  final double? borderRadius;
   const PrimaryButton({
     super.key,
     required this.child,
@@ -26,6 +27,7 @@ class PrimaryButton extends StatelessWidget {
     this.height,
     this.elevation,
     this.borderColor,
+    this.borderRadius,
   });
 
   @override
@@ -40,8 +42,13 @@ class PrimaryButton extends StatelessWidget {
         elevation: elevation ?? 1,
         // padding: const EdgeInsets.symmetric(horizontal: 10),
         shape: RoundedRectangleBorder(
+          // borderRadius: BorderRadius.all(
+          //   Radius.circular(6.0),
+          // ),
           borderRadius: BorderRadius.all(
-            Radius.circular(6.0),
+            Radius.circular(
+              borderRadius ?? 6.0,
+            ),
           ),
           side: borderColor != null
               ? BorderSide(
