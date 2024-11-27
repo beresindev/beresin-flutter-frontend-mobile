@@ -176,7 +176,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             widget.item.nameOfService,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: semibold,
                             ),
                           ),
@@ -205,7 +205,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             "Deskripsi",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: semibold,
                             ),
                           ),
@@ -214,7 +214,7 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                             widget.item.description,
                             style: GoogleFonts.poppins(
                               fontSize: 12,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -254,14 +254,14 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                         'Chat Lewat WA?',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
-                          color: primaryTextColor,
+                          color: whiteTextColor,
                           fontWeight: semibold,
                         ),
                       ),
                       const SizedBox(width: 5),
                       Icon(
                         Icons.whatshot,
-                        color: primaryTextColor,
+                        color: whiteTextColor,
                         size: 24.0,
                       ),
                     ],

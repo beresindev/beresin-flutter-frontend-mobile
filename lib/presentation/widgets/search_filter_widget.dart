@@ -26,14 +26,14 @@ class SearchFilterWidget extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(),
               hintText: placeHolder,
               hintStyle: GoogleFonts.poppins(
-                color: secondaryTextColor,
+                color: greyTextColor,
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(8.0),
                 ),
                 borderSide: BorderSide(
-                  color: secondaryTextColor,
+                  color: greyTextColor,
                 ),
               ),
               focusedBorder: OutlineInputBorder(

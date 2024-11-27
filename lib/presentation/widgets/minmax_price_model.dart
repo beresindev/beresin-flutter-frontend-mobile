@@ -70,7 +70,7 @@ class CustomTextField extends StatelessWidget {
                     labelText!,
                     style: primaryTextStyle.copyWith(
                       fontSize: 14,
-                      color: alternativeBlackTextColor,
+                      color: blackTextColor,
                       fontWeight: medium,
                     ),
                   ),
@@ -160,12 +160,12 @@ class CustomTextField extends StatelessWidget {
               hintText: hintText,
               hintStyle: hintStyle ??
                   primaryTextStyle.copyWith(
-                    color: alternativeGrayColor,
+                    color: darkGrayColor,
                   ),
               enabledBorder: textFieldType == CustomTextFieldType.underline
                   ? UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: alternativeGrayColor,
+                        color: darkGrayColor,
                       ),
                     )
                   : OutlineInputBorder(
@@ -173,13 +173,13 @@ class CustomTextField extends StatelessWidget {
                         Radius.circular(8.0),
                       ),
                       borderSide: BorderSide(
-                        color: alternativeGrayColor,
+                        color: darkGrayColor,
                       ),
                     ),
               focusedBorder: textFieldType == CustomTextFieldType.underline
                   ? UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: isPicker! ? alternativeGrayColor : primaryColor,
+                        color: isPicker! ? darkGrayColor : primaryColor,
                       ),
                     )
                   : OutlineInputBorder(
@@ -187,7 +187,7 @@ class CustomTextField extends StatelessWidget {
                         Radius.circular(8.0),
                       ),
                       borderSide: BorderSide(
-                        color: isPicker! ? alternativeGrayColor : primaryColor,
+                        color: isPicker! ? darkGrayColor : primaryColor,
                         width: isPicker! ? 1 : 2,
                       ),
                     ),

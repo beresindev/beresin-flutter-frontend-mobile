@@ -83,7 +83,7 @@ class ServiceCard extends StatelessWidget {
                     item.nameOfService,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: alternativeBlackTextColor,
+                      color: blackTextColor,
                       fontWeight: medium,
                     ),
                     overflow: TextOverflow.ellipsis,

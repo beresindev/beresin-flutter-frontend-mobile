@@ -55,7 +55,7 @@ class _BerandaPageState extends State<BerandaPage> {
                 Text(
                   'Hai ${user.name}',
                   style: GoogleFonts.poppins(
-                    color: primaryTextColor,
+                    color: whiteTextColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -64,7 +64,7 @@ class _BerandaPageState extends State<BerandaPage> {
                 Text(
                   'Selamat Datang di Baresin, Sewa Cepat Tanpa Ribet!',
                   style: GoogleFonts.poppins(
-                    color: primaryTextColor,
+                    color: whiteTextColor,
                     fontWeight: FontWeight.w400,
                     fontSize: 10,
                   ),
@@ -124,7 +124,7 @@ class _BerandaPageState extends State<BerandaPage> {
                           "Lihat Semua",
                           style: GoogleFonts.poppins(
                             fontSize: 12,
-                            color: alternativeBlackTextColor,
+                            color: blackTextColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

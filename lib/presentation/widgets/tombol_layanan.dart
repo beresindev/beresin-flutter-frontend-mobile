@@ -62,7 +62,7 @@ class TombolLayanan extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 10,
-                color: alternativeBlackTextColor,
+                color: blackTextColor,
                 fontWeight: semibold,
               ),
             ),

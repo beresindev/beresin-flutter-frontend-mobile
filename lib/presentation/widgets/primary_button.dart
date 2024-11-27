@@ -61,8 +61,8 @@ class PrimaryButton extends StatelessWidget {
                 ? color ?? primaryColor
                 : reverseLoading!
                     ? Colors.white
-                    : secondaryTextColor
-            : secondaryTextColor,
+                    : greyTextColor
+            : greyTextColor,
         foregroundColor: primaryColor.withOpacity(0.5),
         shadowColor: elevation != 0 ? null : Colors.transparent,
         minimumSize: Size(

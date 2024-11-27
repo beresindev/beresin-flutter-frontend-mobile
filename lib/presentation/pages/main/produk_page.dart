@@ -66,7 +66,7 @@ class _ProdukPageState extends State<ProdukPage> {
                 title: Text(
                   'Produk',
                   style: GoogleFonts.poppins(
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: semibold,
                     fontSize: 24,
                   ),

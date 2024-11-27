@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Welcome Back',
                   style: GoogleFonts.poppins(
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontSize: 32,
                     fontWeight: bold,
                   ),
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Sign in to your account',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeGrayColor,
+                    color: darkGrayColor,
                     fontWeight: regular,
                   ),
                 ),
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Email Address',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: medium,
                   ),
                 ),
@@ -99,12 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'Masukan nama jasa anda',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: regular,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: regular,
                   ),
                 ),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Password',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: medium,
                   ),
                 ),
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'Masukan nama jasa anda',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: regular,
                     ),
                     suffixIcon: IconButton(
@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: regular,
                   ),
                 ),
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Forgot Password?',
                     style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: alternativeGrayColor,
+                      color: darkGrayColor,
                       fontWeight: medium,
                     ),
                   ),
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Masuk',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
-                          color: primaryTextColor,
+                          color: whiteTextColor,
                           fontWeight: semibold,
                         ),
                       ),
@@ -269,7 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Don't have an account?",
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeGrayColor,
+                          color: darkGrayColor,
                           fontWeight: medium,
                         ),
                       ),

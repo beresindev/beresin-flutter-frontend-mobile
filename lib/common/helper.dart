@@ -12,7 +12,7 @@ class Helper {
       case 'decline':
         return rejectedColor;
       default:
-        return secondaryTextColor; // Default color jika status tidak dikenali
+        return greyTextColor; // Default color jika status tidak dikenali
     }
   }
 

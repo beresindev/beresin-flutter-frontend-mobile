@@ -38,6 +38,7 @@ class ServiceTile extends StatelessWidget {
         Navigator.push(context, halamanDetailProduk());
       },
       child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         height: 115,
         decoration: BoxDecoration(
@@ -85,7 +86,7 @@ class ServiceTile extends StatelessWidget {
                     item.nameOfService,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: alternativeBlackTextColor,
+                      color: blackTextColor,
                       fontWeight: medium,
                     ),
                     overflow: TextOverflow.ellipsis,

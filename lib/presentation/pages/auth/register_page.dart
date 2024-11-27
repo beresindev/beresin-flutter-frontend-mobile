@@ -95,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Text(
                       'Create an Account',
                       style: GoogleFonts.poppins(
-                        color: alternativeBlackTextColor,
+                        color: blackTextColor,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       'Welcome to BeresIn',
                       style: GoogleFonts.poppins(
                         fontSize: 14,
-                        color: alternativeGrayColor,
+                        color: darkGrayColor,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   'Full Name',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -125,12 +125,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'e.g Adam Ganteng',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -142,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -151,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   'Username',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -161,12 +161,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'adamganteng321',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -178,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -187,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   'Email Address',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -198,12 +198,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'example@gmail.com',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -215,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -224,7 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   'Phone Number',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -236,18 +236,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: '812345678901',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     prefixText: '+62 ',
                     prefixStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: alternativeBlackTextColor,
+                      color: blackTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -259,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -268,7 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   'Password',
                   style: TextStyle(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -280,12 +280,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'Enter your password',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: secondaryTextColor,
+                      color: greyTextColor,
                       fontWeight: FontWeight.normal,
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: secondaryTextColor,
+                        color: greyTextColor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
@@ -297,7 +297,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: alternativeBlackTextColor,
+                    color: blackTextColor,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -306,7 +306,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 //   'Confirm Password',
                 //   style: TextStyle(
                 //     fontSize: 14,
-                //     color: alternativeBlackTextColor,
+                //     color: blackTextColor,
                 //     fontWeight: FontWeight.w500,
                 //   ),
                 // ),
@@ -317,12 +317,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 //     hintText: 'Confirm your password',
                 //     hintStyle: GoogleFonts.poppins(
                 //       fontSize: 14,
-                //       color: secondaryTextColor,
+                //       color: greyTextColor,
                 //       fontWeight: FontWeight.normal,
                 //     ),
                 //     enabledBorder: UnderlineInputBorder(
                 //       borderSide: BorderSide(
-                //         color: secondaryTextColor,
+                //         color: greyTextColor,
                 //       ),
                 //     ),
                 //     focusedBorder: UnderlineInputBorder(
@@ -334,7 +334,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 //   ),
                 //   style: GoogleFonts.poppins(
                 //     fontSize: 14,
-                //     color: alternativeBlackTextColor,
+                //     color: blackTextColor,
                 //     fontWeight: FontWeight.normal,
                 //   ),
                 // ),
@@ -367,7 +367,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                              color: alternativeGrayColor,
+                              color: darkGrayColor,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -430,7 +430,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         "Already have an account?",
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeGrayColor,
+                          color: darkGrayColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
