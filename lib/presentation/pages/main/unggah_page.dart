@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/animate_route.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/unggah_produk_page.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/draft_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/unggah_service_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/draft_service_page.dart';
 import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +36,7 @@ class _UnggahPageState extends State<UnggahPage> {
   Route halamanDetailUnggahProduk() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const UnggahProdukPage(),
+          const UnggahServicePage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset(0.0, 0.0);
@@ -80,7 +80,7 @@ class _UnggahPageState extends State<UnggahPage> {
             title: Text(
               'Unggah',
               style: GoogleFonts.poppins(
-                color: alternativeBlackTextColor,
+                color: blackTextColor,
                 fontWeight: bold,
                 fontSize: 24,
               ),
@@ -189,8 +189,15 @@ class _UnggahPageState extends State<UnggahPage> {
                   borderColor: alternativeBlackColor,
                   height: 80,
                   onPressed: () {
+                    // Memastikan data di-refresh saat halaman DraftServicePage dipanggil
+                    final serviceProvider =
+                        Provider.of<ServiceProvider>(context, listen: false);
+                    serviceProvider.getDraftServices(
+                        forceRefresh:
+                            true); // Memanggil dengan forceRefresh = true
+
                     Navigator.push(
-                        context, AnimateRoute.toPage(const DraftProdukPage()));
+                        context, AnimateRoute.toPage(const DraftServicePage()));
                   },
                   child: Row(
                     children: [

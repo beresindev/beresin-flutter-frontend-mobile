@@ -5,9 +5,8 @@ import 'package:mobile_beresin/common/helper.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/constants/api_constants.dart';
 import 'package:mobile_beresin/models/service_model.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/detail_unggah_produk_page.dart';
-import 'package:mobile_beresin/providers/service_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/boost_service_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/detail_draft_service_page.dart';
 
 class DraftProdukCard extends StatelessWidget {
   final ServiceModel item;
@@ -18,7 +17,7 @@ class DraftProdukCard extends StatelessWidget {
     Route halamanDetailProduk() {
       return PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            DetailUnggahProdukPage(
+            DetailDraftServicePage(
           item: item,
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -38,21 +37,44 @@ class DraftProdukCard extends StatelessWidget {
       );
     }
 
-    ServiceProvider serviceProvider =
-        Provider.of<ServiceProvider>(context, listen: false);
+    Route halamanBoostService() {
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            BoostServicePage(
+          item: item,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset(0.0, 0.0);
+          const curve = Curves.easeInOut;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      );
+    }
+
+    // ServiceProvider serviceProvider =
+    //     Provider.of<ServiceProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
         Navigator.push(context, halamanDetailProduk());
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: alternativeBackgroundColor,
           // border: Border.all(
           //   width: 1.0,
-          //   color: secondaryTextColor,
+          //   color: greyTextColor,
           // ),
           boxShadow: [
             BoxShadow(
@@ -76,7 +98,7 @@ class DraftProdukCard extends StatelessWidget {
                   height: 80,
                   width: 80,
                   decoration: BoxDecoration(
-                    color: secondaryTextColor,
+                    color: greyTextColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(12.0),
                     ),
@@ -87,11 +109,11 @@ class DraftProdukCard extends StatelessWidget {
                     //   fit: BoxFit.cover,
                     // ),
                     image: DecorationImage(
-                      image: NetworkImage(
-                        item.images.isNotEmpty
-                            ? '${ApiConstants.baseUrlImage}${item.images.first}'
-                            : 'assets/images/no_image.webp', // Gambar default jika images kosong
-                      ),
+                      image: item.images.isNotEmpty
+                          ? NetworkImage(
+                              '${ApiConstants.baseUrlImage}${item.images.first}')
+                          : const AssetImage('assets/images/no_image.webp')
+                              as ImageProvider, // Gunakan as ImageProvider
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -136,7 +158,7 @@ class DraftProdukCard extends StatelessWidget {
                         FormatDate.formatDateTime(item.createdAt),
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
-                          color: alternativeGrayColor,
+                          color: darkGrayColor,
                           fontSize: 10,
                         ),
                       ),
@@ -146,7 +168,9 @@ class DraftProdukCard extends StatelessWidget {
                 const Spacer(),
                 if (item.status == 'accept')
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, halamanBoostService());
+                    },
                     icon: Icon(
                       Icons.rocket_launch_outlined,
                       color: primaryColor,

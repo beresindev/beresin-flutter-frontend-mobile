@@ -5,6 +5,7 @@ class ApiConstants {
   static const String registerEndpoint = '/auth/register';
   static const String getProfileEndpoint = '/user/profile';
   static const String postUploadService = '/user/services';
+  static const String putUploadService = '/user/services';
 
   static const String getDraftServices = '/user/services';
 

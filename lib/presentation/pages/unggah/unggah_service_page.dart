@@ -7,33 +7,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_beresin/common/theme.dart';
-import 'package:mobile_beresin/presentation/pages/unggah/draft_produk_page.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/draft_service_page.dart';
 import 'package:mobile_beresin/presentation/widgets/minmax_price_model.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 
-class UnggahProdukPage extends StatefulWidget {
-  const UnggahProdukPage({super.key});
+class UnggahServicePage extends StatefulWidget {
+  const UnggahServicePage({super.key});
 
   @override
-  State<UnggahProdukPage> createState() => _UnggahProdukPageState();
+  State<UnggahServicePage> createState() => _UnggahServicePageState();
 }
 
-class _UnggahProdukPageState extends State<UnggahProdukPage> {
+class _UnggahServicePageState extends State<UnggahServicePage> {
   final TextEditingController _namaBarangController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
   final TextEditingController _rangeHargaMinController =
       TextEditingController();
   final TextEditingController _rangeHargaMaxController =
       TextEditingController();
+
   int parsePrice(String value) {
     // Hapus semua karakter non-digit
     String cleanedValue = value.replaceAll(RegExp(r'[^0-9]'), '');
     return int.parse(cleanedValue);
   }
 
-  // String? _kategori;
-  // RangeValues _hargaRange = const RangeValues(0, 100);
   String? _kategoriId;
 
   late ImagePicker _imagePicker;
@@ -57,7 +56,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const DraftProdukPage(),
+              builder: (context) => const DraftServicePage(),
             ));
       },
     ).onError(
@@ -196,7 +195,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Nama Barang / Jasa',
                             style: TextStyle(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -206,12 +205,12 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                               hintText: 'Masukan nama jasa anda',
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
-                                color: secondaryTextColor,
+                                color: greyTextColor,
                                 fontWeight: regular,
                               ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: secondaryTextColor,
+                                  color: greyTextColor,
                                 ),
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -223,7 +222,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             ),
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: regular,
                             ),
                           ),
@@ -232,7 +231,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Kategori',
                             style: TextStyle(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -250,7 +249,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                                       .nameOfCategory, // Display the category name
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: alternativeBlackTextColor,
+                                    color: blackTextColor,
                                     fontWeight: regular,
                                   ),
                                 ),
@@ -267,12 +266,12 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                               hintText: 'Pilih Kategori',
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
-                                color: secondaryTextColor,
+                                color: greyTextColor,
                                 fontWeight: regular,
                               ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: secondaryTextColor,
+                                  color: greyTextColor,
                                 ),
                               ),
                             ),
@@ -282,7 +281,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Range Harga',
                             style: TextStyle(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -305,7 +304,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                                     'To',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: alternativeBlackTextColor,
+                                      color: blackTextColor,
                                       fontWeight: medium,
                                     ),
                                   ),
@@ -327,7 +326,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Unggah 2 Foto',
                             style: TextStyle(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -372,7 +371,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Format gambar png atau jpg',
                             style: TextStyle(
                               fontSize: 14,
-                              color: secondaryTextColor,
+                              color: greyTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -432,7 +431,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                             'Deskripsi',
                             style: TextStyle(
                               fontSize: 14,
-                              color: alternativeBlackTextColor,
+                              color: blackTextColor,
                               fontWeight: medium,
                             ),
                           ),
@@ -446,7 +445,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                               hintText: 'Tulis deskripsi',
                               hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
-                                color: secondaryTextColor,
+                                color: greyTextColor,
                                 fontWeight: regular,
                               ),
                               alignLabelWithHint: true,
@@ -529,7 +528,7 @@ class _UnggahProdukPageState extends State<UnggahProdukPage> {
                                 'Upload',
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
-                                  color: primaryTextColor,
+                                  color: whiteTextColor,
                                   fontWeight: semibold,
                                 ),
                               ),

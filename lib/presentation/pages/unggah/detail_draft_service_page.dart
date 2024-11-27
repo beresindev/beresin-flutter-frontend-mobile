@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/currency_format.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/models/category_model.dart';
 import 'package:mobile_beresin/models/service_model.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/edit_service_page.dart';
 import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:provider/provider.dart';
 
-class DetailUnggahProdukPage extends StatefulWidget {
+class DetailDraftServicePage extends StatefulWidget {
   final ServiceModel item;
-  const DetailUnggahProdukPage({super.key, required this.item});
+  const DetailDraftServicePage({super.key, required this.item});
 
   @override
-  State<DetailUnggahProdukPage> createState() => _DetailUnggahProdukPageState();
+  State<DetailDraftServicePage> createState() => _DetailDraftServicePageState();
 }
 
-class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
+class _DetailDraftServicePageState extends State<DetailDraftServicePage> {
   List<String> imagePaths = [];
   late CategoryModel category;
-
+  bool isServiceActive = false;
   int currentIndex = 0;
+
+  Route halamanEditService() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => EditServicePage(
+        item: widget.item,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset(0.0, 0.0);
+        const curve = Curves.easeInOut;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -97,8 +119,8 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                height: 250, // Atur tinggi carousel
+                margin: const EdgeInsets.only(bottom: 20),
+                height: 200, // Atur tinggi carousel
                 child: Stack(
                   children: [
                     PageView.builder(
@@ -121,7 +143,11 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                             },
                             errorBuilder: (context, error, stackTrace) {
                               return const Center(
-                                  child: Icon(Icons.broken_image, size: 50));
+                                child: Icon(
+                                  Icons.broken_image,
+                                  size: 50,
+                                ),
+                              );
                             },
                           ),
                         );
@@ -134,15 +160,19 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(imagePaths.length, (index) {
-                          return Container(
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: currentIndex == index ? 10 : 6,
-                            height: currentIndex == index ? 10 : 6,
+                            width: currentIndex == index
+                                ? 20
+                                : 6, // Panjang bullet aktif
+                            height: 6, // Tinggi tetap
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
                               color: currentIndex == index
-                                  ? Colors.white
-                                  : Colors.grey.withOpacity(0.5),
+                                  ? alternativeWhiteColor
+                                  : lightGrayColor,
+                              borderRadius: BorderRadius.circular(
+                                  12), // Membuat bentuk oval
                             ),
                           );
                         }),
@@ -151,19 +181,6 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                   ],
                 ),
               ),
-              // Center(
-              //   child: PrimaryButton(
-              //     onPressed: () {},
-              //     width: 70,
-              //     height: 70,
-              //     borderRadius: 35,
-              //     child: const Icon(
-              //       Icons.developer_board,
-              //       size: 24,
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -171,7 +188,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                     widget.item.nameOfService,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: alternativeBlackTextColor,
+                      color: blackTextColor,
                       fontWeight: semibold,
                     ),
                   ),
@@ -184,7 +201,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                             widget.item.minPrice),
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeBlackTextColor,
+                          color: blackTextColor,
                           fontWeight: regular,
                         ),
                       ),
@@ -192,7 +209,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                         ' - ',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeBlackTextColor,
+                          color: blackTextColor,
                           fontWeight: regular,
                         ),
                       ),
@@ -201,7 +218,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                             widget.item.maxPrice),
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: alternativeBlackTextColor,
+                          color: blackTextColor,
                           fontWeight: regular,
                         ),
                       ),
@@ -209,37 +226,87 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                   ),
                 ],
               ),
+
+              // Button Aktifkan dan Nonaktifkan Jasa
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: isServiceActive
+                      ? PrimaryButton(
+                          onPressed: () {
+                            setState(() {
+                              isServiceActive = false;
+                            });
+                          },
+                          width: 355,
+                          child: Text(
+                            'Aktifkan Jasa',
+                            style: primaryTextStyle.copyWith(
+                              fontSize: 14,
+                              color: whiteTextColor,
+                              fontWeight: semibold,
+                            ),
+                          ),
+                        )
+                      : PrimaryButton(
+                          onPressed: () {
+                            setState(() {
+                              isServiceActive = true;
+                            });
+                          },
+                          color: alternativeBackgroundColor,
+                          borderColor: primaryColor,
+                          width: 355,
+                          child: Text(
+                            'Nonaktifkan Jasa',
+                            style: primaryTextStyle.copyWith(
+                              fontSize: 14,
+                              color: primaryColor,
+                              fontWeight: semibold,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
+
+              // Icon Button Edit, Hapus, Boost
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, halamanEditService());
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: lightGrayColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.edit,
+                              size: 30,
+                              color: alternativeBlackColor,
                             ),
                           ),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 30,
-                            color: Colors.white,
+                          const SizedBox(height: 10),
+                          Text(
+                            'Edit',
+                            style: primaryTextStyle.copyWith(
+                              fontSize: 12,
+                              color: blackTextColor,
+                              fontWeight: medium,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Edit',
-                          style: primaryTextStyle.copyWith(
-                            fontSize: 12,
-                            color: alternativeBlackTextColor,
-                            fontWeight: medium,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(width: 40),
                     Column(
@@ -248,22 +315,23 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
-                            color: primaryColor,
+                            color: lightGrayColor,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(25),
                             ),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.delete_outline_outlined,
                             size: 30,
-                            color: Colors.white,
+                            color: alternativeBlackColor,
                           ),
                         ),
+                        const SizedBox(height: 10),
                         Text(
                           'Hapus',
                           style: primaryTextStyle.copyWith(
                             fontSize: 12,
-                            color: alternativeBlackTextColor,
+                            color: blackTextColor,
                             fontWeight: medium,
                           ),
                         ),
@@ -276,22 +344,23 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
-                            color: primaryColor,
+                            color: lightGrayColor,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(25),
                             ),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.rocket_launch_outlined,
                             size: 30,
-                            color: Colors.white,
+                            color: alternativeBlackColor,
                           ),
                         ),
+                        const SizedBox(height: 10),
                         Text(
                           'Boost',
                           style: primaryTextStyle.copyWith(
                             fontSize: 12,
-                            color: alternativeBlackTextColor,
+                            color: blackTextColor,
                             fontWeight: medium,
                           ),
                         ),
@@ -310,7 +379,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                       "Deskripsi",
                       style: GoogleFonts.poppins(
                         fontSize: 14,
-                        color: alternativeBlackTextColor,
+                        color: blackTextColor,
                         fontWeight: semibold,
                       ),
                     ),
@@ -319,7 +388,7 @@ class _DetailUnggahProdukPageState extends State<DetailUnggahProdukPage> {
                       widget.item.description,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: alternativeBlackTextColor,
+                        color: blackTextColor,
                         fontWeight: FontWeight.normal,
                       ),
                     ),

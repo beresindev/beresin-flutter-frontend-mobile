@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_beresin/common/token_manager.dart';
 import 'package:mobile_beresin/models/auth_model.dart';
 import 'package:mobile_beresin/models/user_model.dart';
-import 'package:mobile_beresin/services/auth_service.dart';
+import 'package:mobile_beresin/services/auth_service_source.dart';
 
 class AuthProvider extends ChangeNotifier {
   final tokenManager = TokenManager();
