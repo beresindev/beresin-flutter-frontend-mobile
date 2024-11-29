@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/presentation/pages/auth/login_page.dart';
-import 'package:mobile_beresin/presentation/pages/main/beranda.dart';
 import 'package:mobile_beresin/presentation/widgets/bottom_navbar.dart';
 import 'package:mobile_beresin/providers/auth_provider.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
@@ -25,19 +25,47 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordConfirmationController =
       TextEditingController();
   TextEditingController usernameController = TextEditingController();
+  var showPassword = true;
+  var showConfirmPassword = true;
 
   Future<void> handleRegister() async {
-    Navigator.of(context).pop(); // Tutup dialog
-    late ServiceProvider serviceProvider =
+    final ServiceProvider serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
+
+    final AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
 
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         nameController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
         usernameController.text.isNotEmpty) {
-      AuthProvider authProvider =
-          Provider.of<AuthProvider>(context, listen: false);
+      // Validasi panjang password
+      if (passwordController.text.length < 8) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password harus memiliki minimal 8 karakter!'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+      // Validasi password dan konfirmasi password
+      if (passwordController.text != passwordConfirmationController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password dan Konfirmasi Password tidak sama!'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      // // menghilangkan 0 sebelum kirim ke server
+      // String phoneNumber = phoneController.text.startsWith('0')
+      //     ? phoneController.text.substring(1)
+      //     : phoneController.text;
+
       try {
         await authProvider.register(
           name: nameController.text,
@@ -61,7 +89,12 @@ class _RegisterPageState extends State<RegisterPage> {
         Fluttertoast.showToast(msg: e.toString());
       }
     } else {
-      Fluttertoast.showToast(msg: 'Data tidak boleh kosong!');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Data tidak boleh kosong!'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -122,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    hintText: 'e.g Adam Ganteng',
+                    hintText: 'e.g Danny Kurniawan',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: greyTextColor,
@@ -158,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextField(
                   controller: usernameController,
                   decoration: InputDecoration(
-                    hintText: 'adamganteng321',
+                    hintText: 'e.g Danny',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: greyTextColor,
@@ -220,17 +253,52 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  'Phone Number',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: blackTextColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Phone Number',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Tooltip(
+                      message:
+                          'Perhatian!\nNo HP digunakan untuk pendaftaran sebagai seller', // Pisahkan baris dengan \n
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 5,
+                            offset: const Offset(2, 2),
+                          ),
+                        ],
+                      ),
+                      textStyle: primaryTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                        color: blackTextColor,
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      preferBelow: false,
+                      child: Icon(
+                        Icons.info_outline_rounded,
+                        size: 24,
+                        color: primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
                 TextField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     hintText: '812345678901',
@@ -273,15 +341,26 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 TextField(
+                  obscureText: showPassword,
                   controller: passwordController,
                   keyboardType: TextInputType.name,
-                  obscureText: true,
+                  // obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Enter your password',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: greyTextColor,
                       fontWeight: FontWeight.normal,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        showPassword
+                            ? Icons.remove_red_eye
+                            : Icons.remove_red_eye_outlined,
+                      ),
+                      onPressed: () => setState(() {
+                        showPassword = !showPassword;
+                      }),
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
@@ -302,43 +381,55 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Text(
-                //   'Confirm Password',
-                //   style: TextStyle(
-                //     fontSize: 14,
-                //     color: blackTextColor,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
-                // TextField(
-                //   controller: passwordConfirmationController,
-                //   obscureText: true,
-                //   decoration: InputDecoration(
-                //     hintText: 'Confirm your password',
-                //     hintStyle: GoogleFonts.poppins(
-                //       fontSize: 14,
-                //       color: greyTextColor,
-                //       fontWeight: FontWeight.normal,
-                //     ),
-                //     enabledBorder: UnderlineInputBorder(
-                //       borderSide: BorderSide(
-                //         color: greyTextColor,
-                //       ),
-                //     ),
-                //     focusedBorder: UnderlineInputBorder(
-                //       borderSide: BorderSide(
-                //         color: primaryColor,
-                //         width: 2,
-                //       ),
-                //     ),
-                //   ),
-                //   style: GoogleFonts.poppins(
-                //     fontSize: 14,
-                //     color: blackTextColor,
-                //     fontWeight: FontWeight.normal,
-                //   ),
-                // ),
-                // const SizedBox(height: 20),
+                Text(
+                  'Confirm Password',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: blackTextColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                TextField(
+                  obscureText: showConfirmPassword,
+                  controller: passwordConfirmationController,
+                  decoration: InputDecoration(
+                    hintText: 'Confirm your password',
+                    hintStyle: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: greyTextColor,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        showConfirmPassword
+                            ? Icons.remove_red_eye
+                            : Icons.remove_red_eye_outlined,
+                      ),
+                      onPressed: () => setState(() {
+                        showConfirmPassword = !showConfirmPassword;
+                      }),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: greyTextColor,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -350,66 +441,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Center(
-                            child: Text(
-                              'Perhatian',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          content: Text(
-                            'No HP digunakan untuk pendaftaran sebagai seller',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: darkGrayColor,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          actions: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: primaryColor,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                onPressed: handleRegister,
-                                // onPressed: () {
-                                //   Navigator.of(context).pop(); // Tutup dialog
-                                //   Navigator.pushReplacement(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const LoginPage()),
-                                //   );
-                                // },
-                                child: const Text(
-                                  'Ok, Mantap',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                          actionsAlignment: MainAxisAlignment.center,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                      );
+                      handleRegister();
                     },
                     child: Text(
                       'SIGN UP',

@@ -42,10 +42,11 @@ class AuthService {
         Uri.parse("${ApiConstants.baseUrl}${ApiConstants.registerEndpoint}"),
         headers: {"content-type": "application/json"},
         body: jsonEncode({
-          "name": name,
           "username": username,
-          "phone": '0$phone',
+          "name": name,
           "email": email,
+          // "phone": '0$phone',
+          "phone": phone.startsWith('0') ? phone : '0$phone',
           "password": password,
         }),
       );
