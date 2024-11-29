@@ -140,21 +140,17 @@ class _BerandaPageState extends State<BerandaPage> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
+                      return SingleChildScrollView(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          child: Column(
+                            children: provider.services
+                                .take(5)
+                                .map((service) => ServiceTile(item: service))
+                                .toList(),
+                          ),
                         ),
-                        scrollDirection: Axis.vertical,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 10),
-                        itemCount: provider.services.length >= 5
-                            ? 5
-                            : provider.services.length,
-                        itemBuilder: (context, index) {
-                          return ServiceTile(item: provider.services[index]);
-                        },
                       );
                     }
                   },
