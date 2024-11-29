@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_beresin/common/currency_format.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/models/category_model.dart';
 import 'package:mobile_beresin/models/service_model.dart';
+import 'package:mobile_beresin/presentation/pages/unggah/draft_service_page.dart';
 import 'package:mobile_beresin/presentation/pages/unggah/edit_service_page.dart';
 import 'package:mobile_beresin/presentation/widgets/primary_button.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
@@ -309,33 +312,106 @@ class _DetailDraftServicePageState extends State<DetailDraftServicePage> {
                       ),
                     ),
                     const SizedBox(width: 40),
-                    Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: lightGrayColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                    GestureDetector(
+                      onTap: () async {
+                        bool isDeleted = false;
+                        log('iki id service e: ${widget.item.id}'.toString());
+
+                        // Konfirmasi penghapusan
+                        bool? confirmation = await showDialog<bool>(
+                          context: context,
+                          builder: (dialogContext) {
+                            return AlertDialog(
+                              title: Text('Konfirmasi Hapus'),
+                              content: Text(
+                                  'Apakah Anda yakin ingin menghapus layanan ini?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(dialogContext, false),
+                                  child: Text('Batal'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(dialogContext, true);
+                                  },
+                                  child: Text('Hapus'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
+                        // Jika konfirmasi berhasil
+                        if (confirmation == true) {
+                          try {
+                            final serviceProvider =
+                                Provider.of<ServiceProvider>(
+                              context,
+                              listen: false,
+                            );
+                            isDeleted = await serviceProvider.deleteService(
+                              serviceId: widget.item.id,
+                            );
+
+                            if (isDeleted) {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Layanan berhasil dihapus'),
+                                  ),
+                                );
+
+                                // Navigasi ulang ke halaman DraftServicePage
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DraftServicePage(),
+                                  ),
+                                  (route) => route.isFirst,
+                                );
+                              }
+                            }
+                          } catch (error) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Gagal menghapus layanan: $error'),
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: lightGrayColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.delete_outline_outlined,
+                              size: 30,
+                              color: alternativeBlackColor,
                             ),
                           ),
-                          child: Icon(
-                            Icons.delete_outline_outlined,
-                            size: 30,
-                            color: alternativeBlackColor,
+                          const SizedBox(height: 10),
+                          Text(
+                            'Hapus',
+                            style: primaryTextStyle.copyWith(
+                              fontSize: 12,
+                              color: blackTextColor,
+                              fontWeight: medium,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Hapus',
-                          style: primaryTextStyle.copyWith(
-                            fontSize: 12,
-                            color: blackTextColor,
-                            fontWeight: medium,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(width: 40),
                     Column(
