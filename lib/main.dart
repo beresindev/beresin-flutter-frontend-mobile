@@ -6,9 +6,13 @@ import 'package:mobile_beresin/providers/dashboard_provider.dart';
 import 'package:mobile_beresin/providers/service_provider.dart';
 import 'package:mobile_beresin/services/upload_service_source.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/standalone.dart' as tz;
 
 void main() async {
   await initializeDateFormatting('id_ID', null);
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Jakarta'));
   runApp(
     MultiProvider(
       providers: [

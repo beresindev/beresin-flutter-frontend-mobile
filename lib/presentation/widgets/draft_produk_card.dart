@@ -68,14 +68,10 @@ class DraftProdukCard extends StatelessWidget {
         Navigator.push(context, halamanDetailProduk());
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: alternativeBackgroundColor,
-          // border: Border.all(
-          //   width: 1.0,
-          //   color: greyTextColor,
-          // ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -155,7 +151,7 @@ class DraftProdukCard extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        FormatDate.formatDateTime(item.createdAt),
+                        FormatDate.formatDateTimeJakarta(item.createdAt),
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
                           color: darkGrayColor,
