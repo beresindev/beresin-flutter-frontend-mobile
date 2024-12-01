@@ -62,7 +62,7 @@ class _BerandaPageState extends State<BerandaPage> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Selamat Datang di Baresin, Sewa Cepat Tanpa Ribet!',
+                  'Selamat Datang di Beresin, Sewa Cepat Tanpa Ribet!',
                   style: GoogleFonts.poppins(
                     color: whiteTextColor,
                     fontWeight: FontWeight.w400,

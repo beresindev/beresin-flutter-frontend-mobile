@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 // color pallet
 Color primaryColor = const Color(0xff3C56AF);
 Color backgroundColor = const Color(0xffFAFAFA);
+Color whiteBackgroundColor = const Color(0xffFFFFFF);
 Color alternativeBackgroundColor = const Color(0xffFEFDFF);
 Color alternativeBlackColor = const Color(0xff0E0E0E);
 Color alternativeWhiteColor = const Color(0xffFFFFFF);

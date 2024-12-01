@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_beresin/common/currency_format.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/models/service_model.dart';
 import 'package:mobile_beresin/presentation/pages/produk/detail_produk_page.dart';
@@ -56,7 +57,7 @@ class ServiceCard extends StatelessWidget {
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: 150,
@@ -69,7 +70,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
               ),
@@ -89,16 +90,45 @@ class ServiceCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    item.description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 10,
-                      color: primaryColor,
-                      fontWeight: regular,
-                    ),
+                  const SizedBox(height: 5),
+                  // Text(
+                  //   item.description,
+                  //   maxLines: 2,
+                  //   overflow: TextOverflow.ellipsis,
+                  //   style: GoogleFonts.poppins(
+                  //     fontSize: 10,
+                  //     color: primaryColor,
+                  //     fontWeight: regular,
+                  //   ),
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        FormatCurrency.intToStringCurrency(item.minPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      Text(
+                        ' - ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      Text(
+                        FormatCurrency.intToStringCurrency(item.maxPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

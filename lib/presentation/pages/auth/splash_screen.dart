@@ -27,8 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future authCheck() async {
     debugPrint("MASUK TOKEN AUTH");
+    await Future.delayed(const Duration(seconds: 3));
+
     final token =
         await tokenManager.getToken(); // Ambil token dari Shared Preferences
+
     if (token != null) {
       debugPrint("TOKEN TERSEDIA");
       final success = await authProvider.getProfile(

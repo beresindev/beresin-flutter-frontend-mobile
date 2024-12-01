@@ -64,60 +64,57 @@ class _DraftServicePageState extends State<DraftServicePage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Text(
-                'Total: ',
-                style: GoogleFonts.poppins(
-                  color: alternativeBlackColor,
-                  fontSize: 12,
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Total: ',
+                  style: GoogleFonts.poppins(
+                    color: alternativeBlackColor,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-              Text(
-                '${serviceProvider.draftServices.length} Produk',
-                style: GoogleFonts.poppins(
-                  color: alternativeBlackColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
+                Text(
+                  '${serviceProvider.draftServices.length} Produk',
+                  style: GoogleFonts.poppins(
+                    color: alternativeBlackColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: serviceProvider.draftServices.isEmpty
-                    ? [
-                        Center(
-                          child: Text(
-                            'Tidak ada draft produk.',
-                            style: GoogleFonts.poppins(
-                              color: alternativeBlackColor,
-                              fontSize: 14,
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: serviceProvider.draftServices.isEmpty
+                      ? [
+                          Center(
+                            child: Text(
+                              'Tidak ada draft produk.',
+                              style: GoogleFonts.poppins(
+                                color: alternativeBlackColor,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        ),
-                      ]
-                    : [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ...serviceProvider.draftServices.map(
-                          (produk) => DraftProdukCard(item: produk),
-                        )
-                      ],
+                        ]
+                      : [
+                          ...serviceProvider.draftServices.map(
+                            (produk) => DraftProdukCard(item: produk),
+                          )
+                        ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

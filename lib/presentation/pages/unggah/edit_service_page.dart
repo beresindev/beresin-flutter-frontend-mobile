@@ -43,43 +43,13 @@ class _EditServicePageState extends State<EditServicePage> {
     return imagePath.startsWith('http');
   }
 
-  // Future<void> updateData() async {
-  //   log('kepetek');
-  //   await context
-  //       .read<ServiceProvider>()
-  //       .updateData(
-  //         imagePaths: selectedImagesPath,
-  //         namaBarang: _namaBarangController.text,
-  //         deskripsi: _deskripsiController.text,
-  //         kategori: _kategoriId.toString(),
-  //         minPrice: parsePrice(_rangeHargaMinController.text),
-  //         maxPrice: parsePrice(_rangeHargaMaxController.text),
-  //         id: widget.item.id,
-  //       )
-  //       .then(
-  //     (value) {
-  //       final serviceProvider =
-  //           Provider.of<ServiceProvider>(context, listen: false);
-  //       serviceProvider.getDraftServices(forceRefresh: true);
-  //       // ignore: use_build_context_synchronously
-  //       Navigator.of(context).pushAndRemoveUntil(
-  //         MaterialPageRoute(
-  //           builder: (context) => const DraftServicePage(),
-  //         ),
-  //         (route) => route.isFirst,
-  //       );
-  //     },
-  //   ).onError(
-  //     (error, stackTrace) {
-  //       Fluttertoast.showToast(
-  //         msg: error.toString(),
-  //         backgroundColor: debugColor,
-  //       );
-  //     },
-  //   );
-  // }
   Future<void> updateData() async {
     log('kepetek');
+
+    String namaBarang = _namaBarangController.text.trim();
+    if (namaBarang.toLowerCase().startsWith("jasa ")) {
+      namaBarang = namaBarang.substring(5).trim(); // Hapus "jasa " dan spasi
+    }
 
     // Gabungkan gambar yang sudah ada (selectedImagesPath) dengan gambar baru yang diupload
     List<String> allImages = [...selectedImagesPath, ...imagePaths];
@@ -89,7 +59,8 @@ class _EditServicePageState extends State<EditServicePage> {
         .updateData(
           imagePaths:
               allImages, // Gabungkan gambar yang sudah ada dan gambar baru
-          namaBarang: _namaBarangController.text,
+          // namaBarang: _namaBarangController.text,
+          namaBarang: namaBarang,
           deskripsi: _deskripsiController.text,
           kategori: _kategoriId.toString(),
           minPrice: parsePrice(_rangeHargaMinController.text),

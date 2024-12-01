@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_beresin/common/currency_format.dart';
 import 'package:mobile_beresin/common/theme.dart';
 import 'package:mobile_beresin/models/service_model.dart';
 import 'package:mobile_beresin/presentation/pages/produk/detail_produk_page.dart';
@@ -87,23 +88,52 @@ class ServiceTile extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       color: blackTextColor,
-                      fontWeight: medium,
+                      fontWeight: semibold,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  const SizedBox(height: 3),
-                  Expanded(
-                    child: Text(
-                      item.description,
-                      // maxLines: 2,
-                      // overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        color: primaryColor,
-                        fontWeight: regular,
+                  const SizedBox(height: 8),
+                  // Expanded(
+                  //   child: Text(
+                  //     item.minPrice.toString(),
+                  //     maxLines: 2,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: GoogleFonts.poppins(
+                  //       fontSize: 12,
+                  //       color: primaryColor,
+                  //       fontWeight: regular,
+                  //     ),
+                  //   ),
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        FormatCurrency.intToStringCurrency(item.minPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
                       ),
-                    ),
+                      Text(
+                        ' - ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      Text(
+                        FormatCurrency.intToStringCurrency(item.maxPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    hintText: 'Masukan nama jasa anda',
+                    hintText: 'e.g email@gmail.com',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: greyTextColor,
@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: showPassword,
                   controller: _passwordController,
                   decoration: InputDecoration(
-                    hintText: 'Masukan nama jasa anda',
+                    hintText: 'Input password',
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 14,
                       color: greyTextColor,
@@ -167,18 +167,18 @@ class _LoginPageState extends State<LoginPage> {
                     fontWeight: regular,
                   ),
                 ),
-                const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forgot Password?',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: darkGrayColor,
-                      fontWeight: medium,
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 10),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: Text(
+                //     'Forgot Password?',
+                //     style: GoogleFonts.poppins(
+                //       fontSize: 14,
+                //       color: darkGrayColor,
+                //       fontWeight: medium,
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 30),
                 GestureDetector(
                   onTap: () async {
