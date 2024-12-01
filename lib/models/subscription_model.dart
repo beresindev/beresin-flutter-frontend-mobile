@@ -1,17 +1,18 @@
-class Subscription {
+class SubscriptionModel {
   final bool isSubscription;
   final String boostName;
   // final int duration;
   final DateTime? expiredAt;
 
-  Subscription({
+  SubscriptionModel({
     required this.isSubscription,
     required this.boostName,
     // required this.duration,
     required this.expiredAt,
   });
 
-  factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
+  factory SubscriptionModel.fromJson(Map<String, dynamic> json) =>
+      SubscriptionModel(
         isSubscription: json["isSubscription"],
         boostName: json["boost_name"],
         // duration: json["duration"],

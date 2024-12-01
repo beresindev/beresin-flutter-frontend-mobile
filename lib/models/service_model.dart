@@ -29,7 +29,7 @@ class ServiceModel {
   final int bookmarkCount;
   final String phone;
   final List<String> images;
-  final Subscription subscription;
+  final SubscriptionModel subscription;
 
   ServiceModel({
     // required this.id,
@@ -95,7 +95,7 @@ class ServiceModel {
         bookmarkCount: json["bookmark_count"],
         phone: json["phone"],
         images: List<String>.from(json["images"].map((x) => x)),
-        subscription: Subscription.fromJson(json["subscription"]),
+        subscription: SubscriptionModel.fromJson(json["subscription"]),
       );
 
   // Map<String, dynamic> toJson() => {
