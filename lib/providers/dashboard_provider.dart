@@ -23,7 +23,7 @@ class DashboardProvider with ChangeNotifier {
     [
       'Unggah',
       'assets/svg/plus_square.svg',
-      'assets/svg/plus_square_tebal.svg',
+      'assets/svg/plus_square_blue.svg',
       const UnggahPage(),
     ],
   ];
